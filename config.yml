@@ -1,4 +1,4 @@
-baseURL: "https://ruihusky.github.io/"
+baseURL: "https://ruihusky.github.io/ruihusky/"
 title: ruihusky's Blog
 paginate: 5
 theme: PaperMod
@@ -44,7 +44,7 @@ outputs:
 
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  description: "ruihusky's Blog - https://ruihusky.github.io/"
+  description: "ruihusky's Blog - https://ruihusky.github.io/ruihusky/"
   author: ruihusky
 
   defaultTheme: auto

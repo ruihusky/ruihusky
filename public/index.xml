@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ruihusky&#39;s Blog</title>
-    <link>https://ruihusky.github.io/</link>
+    <link>https://ruihusky.github.io/ruihusky/</link>
     <description>Recent content on ruihusky&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>ruihusky&#39;s Blog</copyright>
-    <lastBuildDate>Tue, 26 Jan 2021 20:00:00 +0800</lastBuildDate><atom:link href="https://ruihusky.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 26 Jan 2021 20:00:00 +0800</lastBuildDate><atom:link href="https://ruihusky.github.io/ruihusky/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CSS flex-basis: auto 与弹性布局</title>
-      <link>https://ruihusky.github.io/posts/2021-01-26_css-flex-basis/</link>
+      <link>https://ruihusky.github.io/ruihusky/posts/2021-01-26_css-flex-basis/</link>
       <pubDate>Tue, 26 Jan 2021 20:00:00 +0800</pubDate>
       
-      <guid>https://ruihusky.github.io/posts/2021-01-26_css-flex-basis/</guid>
+      <guid>https://ruihusky.github.io/ruihusky/posts/2021-01-26_css-flex-basis/</guid>
       <description>flex 布局中的问题 最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：
 页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局促了。
 我一想，使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：
@@ -21,10 +21,10 @@
     
     <item>
       <title>Unicode 编码与 UTF-32、UTF-16、UTF-8</title>
-      <link>https://ruihusky.github.io/posts/2020-12-16_unicode-utf/</link>
+      <link>https://ruihusky.github.io/ruihusky/posts/2020-12-16_unicode-utf/</link>
       <pubDate>Wed, 16 Dec 2020 20:00:00 +0800</pubDate>
       
-      <guid>https://ruihusky.github.io/posts/2020-12-16_unicode-utf/</guid>
+      <guid>https://ruihusky.github.io/ruihusky/posts/2020-12-16_unicode-utf/</guid>
       <description>字符编码与 Unicode 编码 字符，又或者说文本在计算机中是以字符编码的方式存储的。计算机以二进制处理信息，每一位只有 1 和 0 两种状态，每个字节就可以组合出2^8=256种状态（1 字节=8 位）。以 ASCII 为例，它用 7 位的二进制来表示字母、数字和其它符号编号，共计 128 个字符，通常会额外使用一个扩充的位，以便于以 1 个字节的方式存储。
 Unicode 是一个庞大的字符编码集合，是一种用于展示世界上所有语言的字符的编码标准。在 20 世纪 80 年代开始启动设计工作时，人们认为两个字节的代码宽度足以对世界上各种语言的所有字符进行编码，并有足够的空间留给未来的扩展，理论上一共最多可以表示 2^16（即 65536）个字符。这 16 位统一码字符构成了基本多文种平面，其编码范围为 U+0000 ~ U+FFFF。
 经过一段时间，Unicode 字符超过了 65536 个，基本多文种平面无法满足描述所有 Unicode 字符的需要了。为了扩展需求，Unicode 在原来的基础上新增了 16 个辅助平面，每个平面的编码范围为：
@@ -34,10 +34,10 @@ Unicode 是一个庞大的字符编码集合，是一种用于展示世界上所
     
     <item>
       <title>Windows 10 WSL 2 网络配置</title>
-      <link>https://ruihusky.github.io/posts/2020-12-11_wsl2-net-config/</link>
+      <link>https://ruihusky.github.io/ruihusky/posts/2020-12-11_wsl2-net-config/</link>
       <pubDate>Fri, 11 Dec 2020 20:00:00 +0800</pubDate>
       
-      <guid>https://ruihusky.github.io/posts/2020-12-11_wsl2-net-config/</guid>
+      <guid>https://ruihusky.github.io/ruihusky/posts/2020-12-11_wsl2-net-config/</guid>
       <description>使用 WSL 2 时建议将 Windows 10 升级到 版本 2004 或更高版本。
 WSL 2 使用轻量级虚拟机 (VM) 技术运行 Linux 内核，因此 WSL 2 是有自己的独立 IP 地址的，进行网络应用开发时的情况与 WSL 1 有所不同。
 从 Windows 访问 WSL 2 网络 在 Windows 使用 localhost 可以直接访问 WSL 2 中运行的网络应用。
@@ -47,10 +47,10 @@ $ cat /etc/resolv.conf | grep -oP &amp;#39;(?&amp;lt;=nameserver\ ).*&amp;#39; 1
     
     <item>
       <title>Promise实现原理（Promise/A&#43;规范）</title>
-      <link>https://ruihusky.github.io/posts/2020-11-27_promise-aplus/</link>
+      <link>https://ruihusky.github.io/ruihusky/posts/2020-11-27_promise-aplus/</link>
       <pubDate>Fri, 27 Nov 2020 20:00:00 +0800</pubDate>
       
-      <guid>https://ruihusky.github.io/posts/2020-11-27_promise-aplus/</guid>
+      <guid>https://ruihusky.github.io/ruihusky/posts/2020-11-27_promise-aplus/</guid>
       <description>前言 Promise 对象用于表示一个异步操作的最终完成（或失败），及其结果值。它最早由社区提出和实现，其中有多种 Promise 规范。ES6 按照 Promise/A+ 规范将其写进了语言标准。 关于该规范的详情可参考：Promise/A+规范 中文翻译。
 基础实现 我们先尝试实现最简单的 Promise 功能：通过 Promise 包装异步请求，并使用then方法注册回调函数，通过resolve方法通知 Promise 异步请求已解决，并执行回调函数。 模拟一个基础的异步 http 请求，并使用 Promise 封装：
 // 模拟http请求 const mockAjax = (url, s, callback) =&amp;gt; { console.log(&amp;#34;[mockAjax] start&amp;#34;); setTimeout(() =&amp;gt; { console.log(&amp;#34;[mockAjax] callback&amp;#34;); callback(&amp;#34;异步结果：&amp;#34; + url + &amp;#34;异步请求耗时&amp;#34; + s + &amp;#34;秒&amp;#34;); }, 1000 * s); }; // Promise基础功能 new Promise((resolve) =&amp;gt; { mockAjax(&amp;#34;getUserId&amp;#34;, 1, function (result) { resolve(result); }); }) .then((result) =&amp;gt; { console.</description>
@@ -58,10 +58,10 @@ $ cat /etc/resolv.conf | grep -oP &amp;#39;(?&amp;lt;=nameserver\ ).*&amp;#39; 1
     
     <item>
       <title>JavaScript异步编程：Generator函数与Async函数</title>
-      <link>https://ruihusky.github.io/posts/2020-11-18_js-async-function/</link>
+      <link>https://ruihusky.github.io/ruihusky/posts/2020-11-18_js-async-function/</link>
       <pubDate>Wed, 18 Nov 2020 20:00:00 +0800</pubDate>
       
-      <guid>https://ruihusky.github.io/posts/2020-11-18_js-async-function/</guid>
+      <guid>https://ruihusky.github.io/ruihusky/posts/2020-11-18_js-async-function/</guid>
       <description>Generator 函数基本概念 关于协程 首先我们要讨论的是 Generator 函数和普通函数在运行方式上有什么区别。
 运行-完成 对于一个普通函数而言，一旦函数开始运行，除非运行完毕，否则其余的 JS 代码无法运行。这句话应该如何理解？看一个例子：
 setTimeout(function () { console.log(&amp;#34;Hello World&amp;#34;); }, 1); function foo() { // 提示: 最好不要尝试这样的迭代  for (var i = 0; i &amp;lt;= 1e10; i++) { console.log(i); } } foo(); // 0..1E10 // &amp;#34;Hello World&amp;#34; 在这个例子中，foo() 函数的运行时间超过了 1ms，但是 Hello World 出现在了最后面。所以，在 foo() 函数运行过程中，上面的 setTimeout() 函数不会被运行，直到 foo() 函数运行结束。
@@ -72,10 +72,10 @@ setTimeout(function () { console.log(&amp;#34;Hello World&amp;#34;); }, 1); func
     
     <item>
       <title>JavaScript异步编程：回调函数与Promise</title>
-      <link>https://ruihusky.github.io/posts/2020-11-16_js-promise/</link>
+      <link>https://ruihusky.github.io/ruihusky/posts/2020-11-16_js-promise/</link>
       <pubDate>Mon, 16 Nov 2020 20:00:00 +0800</pubDate>
       
-      <guid>https://ruihusky.github.io/posts/2020-11-16_js-promise/</guid>
+      <guid>https://ruihusky.github.io/ruihusky/posts/2020-11-16_js-promise/</guid>
       <description>JavaScript 异步编程背景 JavaScript 是一门单线程语言。所谓单线程，就是同一时刻只能进行一个任务，所有任务排着队按照先后顺序进行。若某个任务耗时很长，进程就会出现卡死的状态。例如使用同步方式加载某个页面，有一个资源需要加载很长时间，那这段时间用户无法对页面做任何操作。因此对于 JavaScript 来说，异步编程异常重要。
 Javascript 异步编程方法 按照时间先后顺序，Javascript 的异步编程方案有这些：
 ES6 以前：回调函数、Promise 对象 ES6：Generator 函数 ES7：async 函数
@@ -91,10 +91,10 @@ function test() { setTimeout(function () { console.log(&amp;#34;from setTimeout&
     
     <item>
       <title>JavaScript原型与继承</title>
-      <link>https://ruihusky.github.io/posts/2020-11-12_js-prototype/</link>
+      <link>https://ruihusky.github.io/ruihusky/posts/2020-11-12_js-prototype/</link>
       <pubDate>Thu, 12 Nov 2020 20:00:00 +0800</pubDate>
       
-      <guid>https://ruihusky.github.io/posts/2020-11-12_js-prototype/</guid>
+      <guid>https://ruihusky.github.io/ruihusky/posts/2020-11-12_js-prototype/</guid>
       <description>理解原型对象 在 JavaScript 中，创建的每个函数都有一个 prototype （原型）属性，这个属性是一个指针，指向原型对象。通过调用构造函数创建的所有对象实例都可以访问该原型对象。举例来说：
 function Person() {} Person.prototype.name = &amp;#34;Nicholas&amp;#34;; Person.prototype.age = 29; Person.prototype.job = &amp;#34;Software Engineer&amp;#34;; Person.prototype.sayName = function () { alert(this.name); }; var person1 = new Person(); person1.sayName(); // &amp;#34;Nicholas&amp;#34; var person2 = new Person(); person2.sayName(); // &amp;#34;Nicholas&amp;#34; alert(person1.sayName == person2.sayName); // true 原型搜索机制 访问实例对象的属性时，会先从实例对象的属性找起，找不到再去原型对象中寻找。为实例对象添加属性会屏蔽对原型对象中同名属性的访问。要恢复对原型对象属性的访问，使用 delete 删除实例对象属性即可。下面是例子：
 function Person() {} Person.prototype.name = &amp;#34;Nicholas&amp;#34;; Person.prototype.age = 29; Person.prototype.job = &amp;#34;Software Engineer&amp;#34;; Person.prototype.sayName = function () { alert(this.name); }; var person1 = new Person(); var person2 = new Person(); person1.</description>
@@ -102,19 +102,19 @@ function Person() {} Person.prototype.name = &amp;#34;Nicholas&amp;#34;; Person.
     
     <item>
       <title>Archives</title>
-      <link>https://ruihusky.github.io/archives/</link>
+      <link>https://ruihusky.github.io/ruihusky/archives/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://ruihusky.github.io/archives/</guid>
+      <guid>https://ruihusky.github.io/ruihusky/archives/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Search</title>
-      <link>https://ruihusky.github.io/search/</link>
+      <link>https://ruihusky.github.io/ruihusky/search/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://ruihusky.github.io/search/</guid>
+      <guid>https://ruihusky.github.io/ruihusky/search/</guid>
       <description></description>
     </item>
     

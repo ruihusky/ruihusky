@@ -20,15 +20,15 @@ function test() { setTimeout(function () { console.log(&#34;from setTimeout&#34;
 现在假设这样一个业务场景：需要有序读取多个文件并输出。这是嵌套回调的常见模式，看下面的例子：
 // 嵌套回调，读一个文件后输出，再读另一个文件。读取第二个文件的代码需要写在第一个回调函数之中 var fs = require(&#34;fs&#34;); fs.readFile(&#34;./text1.txt&#34;, &#34;utf8&#34;, function (err, data) { console.log(&#34;text1 file content: &#34; &#43; data); fs.">
 <meta name="author" content="ruihusky">
-<link rel="canonical" href="https://ruihusky.github.io/posts/2020-11-16_js-promise/" />
-<link href="/assets/css/stylesheet.min.5c4f6d85b7abfcfea458637c672d16a7a9c38c37f002753cfdc7f314b6d3c8f2.css" integrity="sha256-XE9thber/P6kWGN8Zy0Wp6nDjDfwAnU8/cfzFLbTyPI=" rel="preload stylesheet"
+<link rel="canonical" href="https://ruihusky.github.io/ruihusky/posts/2020-11-16_js-promise/" />
+<link href="/ruihusky/assets/css/stylesheet.min.5c4f6d85b7abfcfea458637c672d16a7a9c38c37f002753cfdc7f314b6d3c8f2.css" integrity="sha256-XE9thber/P6kWGN8Zy0Wp6nDjDfwAnU8/cfzFLbTyPI=" rel="preload stylesheet"
     as="style">
 
-<link rel="icon" href="https://ruihusky.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://ruihusky.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://ruihusky.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://ruihusky.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://ruihusky.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="https://ruihusky.github.io/ruihusky/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ruihusky.github.io/ruihusky/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ruihusky.github.io/ruihusky/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ruihusky.github.io/ruihusky/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ruihusky.github.io/ruihusky/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <meta name="generator" content="Hugo 0.80.0" />
@@ -47,7 +47,7 @@ function test() { setTimeout(function () { console.log(&#34;from setTimeout&#34;
 现在假设这样一个业务场景：需要有序读取多个文件并输出。这是嵌套回调的常见模式，看下面的例子：
 // 嵌套回调，读一个文件后输出，再读另一个文件。读取第二个文件的代码需要写在第一个回调函数之中 var fs = require(&#34;fs&#34;); fs.readFile(&#34;./text1.txt&#34;, &#34;utf8&#34;, function (err, data) { console.log(&#34;text1 file content: &#34; &#43; data); fs." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://ruihusky.github.io/posts/2020-11-16_js-promise/" />
+<meta property="og:url" content="https://ruihusky.github.io/ruihusky/posts/2020-11-16_js-promise/" />
 <meta property="article:published_time" content="2020-11-16T20:00:00+08:00" />
 <meta property="article:modified_time" content="2020-11-16T20:00:00+08:00" />
 <meta name="twitter:card" content="summary"/>
@@ -85,14 +85,14 @@ function test() { setTimeout(function () { console.log(&#34;from setTimeout&#34;
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://ruihusky.github.io/posts/2020-11-16_js-promise/"
+    "@id": "https://ruihusky.github.io/ruihusky/posts/2020-11-16_js-promise/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "ruihusky's Blog",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://ruihusky.github.io/favicon.ico"
+      "url": "https://ruihusky.github.io/ruihusky/favicon.ico"
     }
   }
 }
@@ -125,7 +125,7 @@ function test() { setTimeout(function () { console.log(&#34;from setTimeout&#34;
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://ruihusky.github.io/" accesskey="h" title="ruihusky&#39;s Blog (Alt + H)">ruihusky&#39;s Blog</a>
+            <a href="https://ruihusky.github.io/ruihusky/" accesskey="h" title="ruihusky&#39;s Blog (Alt + H)">ruihusky&#39;s Blog</a>
             <span class="logo-switches">
                 <span class="theme-toggle" title="(Alt + T)">
                     <a id="theme-toggle" accesskey="t">
@@ -154,22 +154,22 @@ function test() { setTimeout(function () { console.log(&#34;from setTimeout&#34;
         </div>
         <ul class="menu" id="menu" onscroll="menu_on_scroll()">
             <li>
-                <a href="https://ruihusky.github.io/archives" title="Archives">
+                <a href="https://ruihusky.github.io/ruihusky/archives" title="Archives">
                     <span>Archives</span>
                 </a>
             </li>
             <li>
-                <a href="https://ruihusky.github.io/categories" title="Categories">
+                <a href="https://ruihusky.github.io/ruihusky/categories" title="Categories">
                     <span>Categories</span>
                 </a>
             </li>
             <li>
-                <a href="https://ruihusky.github.io/tags/" title="Tags">
+                <a href="https://ruihusky.github.io/ruihusky/tags/" title="Tags">
                     <span>Tags</span>
                 </a>
             </li>
             <li>
-                <a href="https://ruihusky.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                <a href="https://ruihusky.github.io/ruihusky/search/" title="Search (Alt &#43; /)" accesskey=/>
                     <span>Search</span>
                 </a>
             </li></ul>
@@ -411,7 +411,7 @@ Promise.<span style="color:#a6e22e">all</span>(<span style="color:#a6e22e">promi
 </div>
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://ruihusky.github.io/tags/javascript/">JavaScript</a></li>
+      <li><a href="https://ruihusky.github.io/ruihusky/tags/javascript/">JavaScript</a></li>
     </ul>
   </footer>
 </article>
@@ -432,7 +432,7 @@ Promise.<span style="color:#a6e22e">all</span>(<span style="color:#a6e22e">promi
 
 
 
-<script defer src="/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js" integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w="
+<script defer src="/ruihusky/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js" integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w="
     onload="hljs.initHighlightingOnLoad();"></script>
 <script>
     window.onload = function () {

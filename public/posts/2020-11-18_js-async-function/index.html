@@ -15,15 +15,15 @@ setTimeout(function () { console.log(&#34;Hello World&#34;); }, 1); function foo
 这里引申到 协程（coroutine） 的概念。可以这么理解：一个进程（这里可以将它理解为一个 function）本身可以选择何时被中断以便与其它代码进行协作。
 在 ES6 中，Generator 函数使用协程来进行并发操作。在 Generator 函数体内，通过使用新的 yield 关键字从内部将函数的运行打断。除了 Generator 函数内部的 yield 关键字，你不可能从任何地方（包括函数外部）中断函数的运行。">
 <meta name="author" content="ruihusky">
-<link rel="canonical" href="https://ruihusky.github.io/posts/2020-11-18_js-async-function/" />
-<link href="/assets/css/stylesheet.min.5c4f6d85b7abfcfea458637c672d16a7a9c38c37f002753cfdc7f314b6d3c8f2.css" integrity="sha256-XE9thber/P6kWGN8Zy0Wp6nDjDfwAnU8/cfzFLbTyPI=" rel="preload stylesheet"
+<link rel="canonical" href="https://ruihusky.github.io/ruihusky/posts/2020-11-18_js-async-function/" />
+<link href="/ruihusky/assets/css/stylesheet.min.5c4f6d85b7abfcfea458637c672d16a7a9c38c37f002753cfdc7f314b6d3c8f2.css" integrity="sha256-XE9thber/P6kWGN8Zy0Wp6nDjDfwAnU8/cfzFLbTyPI=" rel="preload stylesheet"
     as="style">
 
-<link rel="icon" href="https://ruihusky.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://ruihusky.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://ruihusky.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://ruihusky.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://ruihusky.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="https://ruihusky.github.io/ruihusky/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ruihusky.github.io/ruihusky/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ruihusky.github.io/ruihusky/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ruihusky.github.io/ruihusky/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ruihusky.github.io/ruihusky/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <meta name="generator" content="Hugo 0.80.0" />
@@ -37,7 +37,7 @@ setTimeout(function () { console.log(&#34;Hello World&#34;); }, 1); function foo
 这里引申到 协程（coroutine） 的概念。可以这么理解：一个进程（这里可以将它理解为一个 function）本身可以选择何时被中断以便与其它代码进行协作。
 在 ES6 中，Generator 函数使用协程来进行并发操作。在 Generator 函数体内，通过使用新的 yield 关键字从内部将函数的运行打断。除了 Generator 函数内部的 yield 关键字，你不可能从任何地方（包括函数外部）中断函数的运行。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://ruihusky.github.io/posts/2020-11-18_js-async-function/" />
+<meta property="og:url" content="https://ruihusky.github.io/ruihusky/posts/2020-11-18_js-async-function/" />
 <meta property="article:published_time" content="2020-11-18T20:00:00+08:00" />
 <meta property="article:modified_time" content="2020-11-18T20:00:00+08:00" />
 <meta name="twitter:card" content="summary"/>
@@ -70,14 +70,14 @@ setTimeout(function () { console.log(&#34;Hello World&#34;); }, 1); function foo
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://ruihusky.github.io/posts/2020-11-18_js-async-function/"
+    "@id": "https://ruihusky.github.io/ruihusky/posts/2020-11-18_js-async-function/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "ruihusky's Blog",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://ruihusky.github.io/favicon.ico"
+      "url": "https://ruihusky.github.io/ruihusky/favicon.ico"
     }
   }
 }
@@ -110,7 +110,7 @@ setTimeout(function () { console.log(&#34;Hello World&#34;); }, 1); function foo
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://ruihusky.github.io/" accesskey="h" title="ruihusky&#39;s Blog (Alt + H)">ruihusky&#39;s Blog</a>
+            <a href="https://ruihusky.github.io/ruihusky/" accesskey="h" title="ruihusky&#39;s Blog (Alt + H)">ruihusky&#39;s Blog</a>
             <span class="logo-switches">
                 <span class="theme-toggle" title="(Alt + T)">
                     <a id="theme-toggle" accesskey="t">
@@ -139,22 +139,22 @@ setTimeout(function () { console.log(&#34;Hello World&#34;); }, 1); function foo
         </div>
         <ul class="menu" id="menu" onscroll="menu_on_scroll()">
             <li>
-                <a href="https://ruihusky.github.io/archives" title="Archives">
+                <a href="https://ruihusky.github.io/ruihusky/archives" title="Archives">
                     <span>Archives</span>
                 </a>
             </li>
             <li>
-                <a href="https://ruihusky.github.io/categories" title="Categories">
+                <a href="https://ruihusky.github.io/ruihusky/categories" title="Categories">
                     <span>Categories</span>
                 </a>
             </li>
             <li>
-                <a href="https://ruihusky.github.io/tags/" title="Tags">
+                <a href="https://ruihusky.github.io/ruihusky/tags/" title="Tags">
                     <span>Tags</span>
                 </a>
             </li>
             <li>
-                <a href="https://ruihusky.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                <a href="https://ruihusky.github.io/ruihusky/search/" title="Search (Alt &#43; /)" accesskey=/>
                     <span>Search</span>
                 </a>
             </li></ul>
@@ -612,7 +612,7 @@ November 18, 2020&nbsp;·&nbsp;ruihusky
 </div>
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://ruihusky.github.io/tags/javascript/">JavaScript</a></li>
+      <li><a href="https://ruihusky.github.io/ruihusky/tags/javascript/">JavaScript</a></li>
     </ul>
   </footer>
 </article>
@@ -633,7 +633,7 @@ November 18, 2020&nbsp;·&nbsp;ruihusky
 
 
 
-<script defer src="/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js" integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w="
+<script defer src="/ruihusky/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js" integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w="
     onload="hljs.initHighlightingOnLoad();"></script>
 <script>
     window.onload = function () {

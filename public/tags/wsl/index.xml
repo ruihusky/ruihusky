@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>WSL on ruihusky&#39;s Blog</title>
-    <link>https://ruihusky.github.io/tags/wsl/</link>
+    <link>https://ruihusky.github.io/ruihusky/tags/wsl/</link>
     <description>Recent content in WSL on ruihusky&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>ruihusky&#39;s Blog</copyright>
-    <lastBuildDate>Fri, 11 Dec 2020 20:00:00 +0800</lastBuildDate><atom:link href="https://ruihusky.github.io/tags/wsl/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 11 Dec 2020 20:00:00 +0800</lastBuildDate><atom:link href="https://ruihusky.github.io/ruihusky/tags/wsl/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Windows 10 WSL 2 网络配置</title>
-      <link>https://ruihusky.github.io/posts/2020-12-11_wsl2-net-config/</link>
+      <link>https://ruihusky.github.io/ruihusky/posts/2020-12-11_wsl2-net-config/</link>
       <pubDate>Fri, 11 Dec 2020 20:00:00 +0800</pubDate>
       
-      <guid>https://ruihusky.github.io/posts/2020-12-11_wsl2-net-config/</guid>
+      <guid>https://ruihusky.github.io/ruihusky/posts/2020-12-11_wsl2-net-config/</guid>
       <description>使用 WSL 2 时建议将 Windows 10 升级到 版本 2004 或更高版本。
 WSL 2 使用轻量级虚拟机 (VM) 技术运行 Linux 内核，因此 WSL 2 是有自己的独立 IP 地址的，进行网络应用开发时的情况与 WSL 1 有所不同。
 从 Windows 访问 WSL 2 网络 在 Windows 使用 localhost 可以直接访问 WSL 2 中运行的网络应用。
