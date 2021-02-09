@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>经验技巧 on ruihusky&#39;s Blog</title>
-    <link>https://ruihusky.github.io/categories/%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7/</link>
+    <link>https://ruihusky.github.io/ruihusky/categories/%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7/</link>
     <description>Recent content in 经验技巧 on ruihusky&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>ruihusky&#39;s Blog</copyright>
-    <lastBuildDate>Tue, 26 Jan 2021 20:00:00 +0800</lastBuildDate><atom:link href="https://ruihusky.github.io/categories/%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 26 Jan 2021 20:00:00 +0800</lastBuildDate><atom:link href="https://ruihusky.github.io/ruihusky/categories/%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CSS flex-basis: auto 与弹性布局</title>
-      <link>https://ruihusky.github.io/posts/2021-01-26_css-flex-basis/</link>
+      <link>https://ruihusky.github.io/ruihusky/posts/2021-01-26_css-flex-basis/</link>
       <pubDate>Tue, 26 Jan 2021 20:00:00 +0800</pubDate>
       
-      <guid>https://ruihusky.github.io/posts/2021-01-26_css-flex-basis/</guid>
+      <guid>https://ruihusky.github.io/ruihusky/posts/2021-01-26_css-flex-basis/</guid>
       <description>flex 布局中的问题 最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：
 页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局促了。
 我一想，使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：
@@ -21,10 +21,10 @@
     
     <item>
       <title>Windows 10 WSL 2 网络配置</title>
-      <link>https://ruihusky.github.io/posts/2020-12-11_wsl2-net-config/</link>
+      <link>https://ruihusky.github.io/ruihusky/posts/2020-12-11_wsl2-net-config/</link>
       <pubDate>Fri, 11 Dec 2020 20:00:00 +0800</pubDate>
       
-      <guid>https://ruihusky.github.io/posts/2020-12-11_wsl2-net-config/</guid>
+      <guid>https://ruihusky.github.io/ruihusky/posts/2020-12-11_wsl2-net-config/</guid>
       <description>使用 WSL 2 时建议将 Windows 10 升级到 版本 2004 或更高版本。
 WSL 2 使用轻量级虚拟机 (VM) 技术运行 Linux 内核，因此 WSL 2 是有自己的独立 IP 地址的，进行网络应用开发时的情况与 WSL 1 有所不同。
 从 Windows 访问 WSL 2 网络 在 Windows 使用 localhost 可以直接访问 WSL 2 中运行的网络应用。
