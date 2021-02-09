@@ -14,7 +14,7 @@
 &lt;div class=&#34;page-container&#34;&gt; &lt;!-- ...其他flex子项 --&gt; &lt;div class=&#34;image-wrap&#34;&gt; &lt;!-- 为了实现多个动画效果，图片被一个div包裹 --&gt; &lt;img class=&#34;image&#34; src=&#34;...&#34; /&gt; &lt;/div&gt; &lt;!-- ...其他flex子项 --&gt; &lt;/div&gt; &lt;!-- vue css scope --&gt; &lt;style&gt; .page-container { width: 750px; /* 父元素固定100vh */ height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; } .image-wrap { /* 让flex子元素自动伸展、自动压缩，并且设置最大、最小高度 */ flex-grow: 1; flex-shrink: 1; max-height: 688px; min-height: 613px; } .">
 <meta name="author" content="ruihusky">
 <link rel="canonical" href="https://ruihusky.github.io/ruihusky/posts/2021-01-26_css-flex-basis/" />
-<link href="/ruihusky/assets/css/stylesheet.min.5c4f6d85b7abfcfea458637c672d16a7a9c38c37f002753cfdc7f314b6d3c8f2.css" integrity="sha256-XE9thber/P6kWGN8Zy0Wp6nDjDfwAnU8/cfzFLbTyPI=" rel="preload stylesheet"
+<link href="/ruihusky/assets/css/stylesheet.min.3b4ed2e80185ab356f837eda72c1debdea24ca2d707d78b82f2534624843aaa0.css" integrity="sha256-O07S6AGFqzVvg37acsHeveokyi1wfXi4LyU0YkhDqqA=" rel="preload stylesheet"
     as="style">
 
 <link rel="icon" href="https://ruihusky.github.io/ruihusky/favicon.ico">
@@ -106,32 +106,31 @@
         <div class="logo">
             <a href="https://ruihusky.github.io/ruihusky/" accesskey="h" title="ruihusky&#39;s Blog (Alt + H)">ruihusky&#39;s Blog</a>
             <span class="logo-switches">
-                <span class="theme-toggle" title="(Alt + T)">
-                    <a id="theme-toggle" accesskey="t">
-                        <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                        </svg>
-                        <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="5"></circle>
-                            <line x1="12" y1="1" x2="12" y2="3"></line>
-                            <line x1="12" y1="21" x2="12" y2="23"></line>
-                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                            <line x1="1" y1="12" x2="3" y2="12"></line>
-                            <line x1="21" y1="12" x2="23" y2="12"></line>
-                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                        </svg>
-                    </a>
-                </span>
+                <a id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </a>
+                
                 
             </span>
         </div>
-        <ul class="menu" id="menu" onscroll="menu_on_scroll()">
+        <ul id="menu" onscroll="menu_on_scroll()">
             <li>
                 <a href="https://ruihusky.github.io/ruihusky/archives" title="Archives">
                     <span>Archives</span>
@@ -159,17 +158,19 @@
 
 <article class="post-single">
   <header class="post-header">
+<div class="breadcrumbs">
+
+    <a href="https://ruihusky.github.io/ruihusky/">Home</a>&nbsp;»&nbsp;<a href="https://ruihusky.github.io/ruihusky/posts/">Posts</a>
+</div>
+
     <h1 class="post-title">
       CSS flex-basis: auto 与弹性布局
     </h1>
-    <div class="post-description">
-      
-    </div>
     <div class="post-meta">
 
 January 26, 2021&nbsp;·&nbsp;ruihusky
 
-    </div>
+</div>
   </header> 
 
   <div class="toc">
@@ -177,10 +178,10 @@ January 26, 2021&nbsp;·&nbsp;ruihusky
       <summary accesskey="c" title="(Alt + C)">
         <div class="details">目录</div>
       </summary>
-      <blockquote><ul><li>
+      <div class="inner"><ul><li>
         <a href="#flex-%e5%b8%83%e5%b1%80%e4%b8%ad%e7%9a%84%e9%97%ae%e9%a2%98" aria-label="flex 布局中的问题">flex 布局中的问题</a></li><li>
         <a href="#%e5%85%b3%e4%ba%8e-flex-basis-auto" aria-label="关于 flex-basis: auto">关于 flex-basis: auto</a></li></ul>
-      </blockquote>
+      </div>
     </details>
   </div>
   <div class="post-content">
@@ -244,7 +245,26 @@ January 26, 2021&nbsp;·&nbsp;ruihusky
       <li><a href="https://ruihusky.github.io/ruihusky/tags/css/">CSS</a></li>
       <li><a href="https://ruihusky.github.io/ruihusky/tags/flex%E5%B8%83%E5%B1%80/">Flex布局</a></li>
     </ul>
+    <nav class="paginav">
+      <a class="next" href="https://ruihusky.github.io/ruihusky/posts/2020-12-16_unicode-utf/">
+        <span class="title">下一页 »</span>
+        <br>
+        <span>Unicode 编码与 UTF-32、UTF-16、UTF-8</span>
+      </a>
+    </nav>
   </footer>
+
+<script
+  src="https://utteranc.es/client.js"
+  repo="ruihusky/ruihusky"
+  issue-term="pathname"
+  label="comment"
+  theme="github-light"
+  crossorigin="anonymous"
+  async
+></script>
+
+
 </article>
     </main><footer class="footer">
     <span>ruihusky&rsquo;s Blog</span>
@@ -285,7 +305,7 @@ January 26, 2021&nbsp;·&nbsp;ruihusky
             if (id === "top") {
                 history.replaceState(null, null, " ");
             } else {
-                history.replaceState(null, null, `#${id}`);
+                history.pushState(null, null, `#${id}`);
             }
         });
     });

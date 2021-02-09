@@ -129,7 +129,7 @@ function Remove-WSLPortProxy ($Port = '8080', $Protocol = 'TCP') {
 
 对应的调用命令为：`Add-WSLPortProxy [$Port] [$Protocol]` 、`Remove-WSLPortProxy [$Port] [$Protocol]`，其中 `[$Port] [$Protocol]` 均为可选参数，默认为 `8080` 、`TCP`。
 
-### 参考
+## 参考
 
 [比较 WSL 2 和 WSL 1 | 访问网络应用程序](https://docs.microsoft.com/zh-cn/windows/wsl/compare-versions#accessing-network-applications)
 

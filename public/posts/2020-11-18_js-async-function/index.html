@@ -16,7 +16,7 @@ setTimeout(function () { console.log(&#34;Hello World&#34;); }, 1); function foo
 在 ES6 中，Generator 函数使用协程来进行并发操作。在 Generator 函数体内，通过使用新的 yield 关键字从内部将函数的运行打断。除了 Generator 函数内部的 yield 关键字，你不可能从任何地方（包括函数外部）中断函数的运行。">
 <meta name="author" content="ruihusky">
 <link rel="canonical" href="https://ruihusky.github.io/ruihusky/posts/2020-11-18_js-async-function/" />
-<link href="/ruihusky/assets/css/stylesheet.min.5c4f6d85b7abfcfea458637c672d16a7a9c38c37f002753cfdc7f314b6d3c8f2.css" integrity="sha256-XE9thber/P6kWGN8Zy0Wp6nDjDfwAnU8/cfzFLbTyPI=" rel="preload stylesheet"
+<link href="/ruihusky/assets/css/stylesheet.min.3b4ed2e80185ab356f837eda72c1debdea24ca2d707d78b82f2534624843aaa0.css" integrity="sha256-O07S6AGFqzVvg37acsHeveokyi1wfXi4LyU0YkhDqqA=" rel="preload stylesheet"
     as="style">
 
 <link rel="icon" href="https://ruihusky.github.io/ruihusky/favicon.ico">
@@ -112,32 +112,31 @@ setTimeout(function () { console.log(&#34;Hello World&#34;); }, 1); function foo
         <div class="logo">
             <a href="https://ruihusky.github.io/ruihusky/" accesskey="h" title="ruihusky&#39;s Blog (Alt + H)">ruihusky&#39;s Blog</a>
             <span class="logo-switches">
-                <span class="theme-toggle" title="(Alt + T)">
-                    <a id="theme-toggle" accesskey="t">
-                        <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                        </svg>
-                        <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="5"></circle>
-                            <line x1="12" y1="1" x2="12" y2="3"></line>
-                            <line x1="12" y1="21" x2="12" y2="23"></line>
-                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                            <line x1="1" y1="12" x2="3" y2="12"></line>
-                            <line x1="21" y1="12" x2="23" y2="12"></line>
-                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                        </svg>
-                    </a>
-                </span>
+                <a id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </a>
+                
                 
             </span>
         </div>
-        <ul class="menu" id="menu" onscroll="menu_on_scroll()">
+        <ul id="menu" onscroll="menu_on_scroll()">
             <li>
                 <a href="https://ruihusky.github.io/ruihusky/archives" title="Archives">
                     <span>Archives</span>
@@ -165,17 +164,19 @@ setTimeout(function () { console.log(&#34;Hello World&#34;); }, 1); function foo
 
 <article class="post-single">
   <header class="post-header">
+<div class="breadcrumbs">
+
+    <a href="https://ruihusky.github.io/ruihusky/">Home</a>&nbsp;»&nbsp;<a href="https://ruihusky.github.io/ruihusky/posts/">Posts</a>
+</div>
+
     <h1 class="post-title">
       JavaScript异步编程：Generator函数与Async函数
     </h1>
-    <div class="post-description">
-      
-    </div>
     <div class="post-meta">
 
 November 18, 2020&nbsp;·&nbsp;ruihusky
 
-    </div>
+</div>
   </header> 
 
   <div class="toc">
@@ -183,7 +184,7 @@ November 18, 2020&nbsp;·&nbsp;ruihusky
       <summary accesskey="c" title="(Alt + C)">
         <div class="details">目录</div>
       </summary>
-      <blockquote><ul><li>
+      <div class="inner"><ul><li>
         <a href="#generator-%e5%87%bd%e6%95%b0%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5" aria-label="Generator 函数基本概念">Generator 函数基本概念</a><ul>
             <li>
         <a href="#%e5%85%b3%e4%ba%8e%e5%8d%8f%e7%a8%8b" aria-label="关于协程">关于协程</a></li><li>
@@ -205,7 +206,7 @@ November 18, 2020&nbsp;·&nbsp;ruihusky
         <a href="#async-%e5%87%bd%e6%95%b0%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95" aria-label="async 函数基本用法">async 函数基本用法</a></li></ul>
     </li><li>
         <a href="#%e6%80%bb%e7%bb%93" aria-label="总结">总结</a></li></ul>
-      </blockquote>
+      </div>
     </details>
   </div>
   <div class="post-content">
@@ -614,7 +615,31 @@ November 18, 2020&nbsp;·&nbsp;ruihusky
     <ul class="post-tags">
       <li><a href="https://ruihusky.github.io/ruihusky/tags/javascript/">JavaScript</a></li>
     </ul>
+    <nav class="paginav">
+      <a class="prev" href="https://ruihusky.github.io/ruihusky/posts/2020-11-27_promise-aplus/">
+        <span class="title">« 上一页</span>
+        <br>
+        <span>Promise实现原理（Promise/A&#43;规范）</span>
+      </a>
+      <a class="next" href="https://ruihusky.github.io/ruihusky/posts/2020-11-16_js-promise/">
+        <span class="title">下一页 »</span>
+        <br>
+        <span>JavaScript异步编程：回调函数与Promise</span>
+      </a>
+    </nav>
   </footer>
+
+<script
+  src="https://utteranc.es/client.js"
+  repo="ruihusky/ruihusky"
+  issue-term="pathname"
+  label="comment"
+  theme="github-light"
+  crossorigin="anonymous"
+  async
+></script>
+
+
 </article>
     </main><footer class="footer">
     <span>ruihusky&rsquo;s Blog</span>
@@ -655,7 +680,7 @@ November 18, 2020&nbsp;·&nbsp;ruihusky
             if (id === "top") {
                 history.replaceState(null, null, " ");
             } else {
-                history.replaceState(null, null, `#${id}`);
+                history.pushState(null, null, `#${id}`);
             }
         });
     });

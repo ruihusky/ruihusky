@@ -1,7 +1,7 @@
 baseURL: "https://ruihusky.github.io/ruihusky/"
 title: ruihusky's Blog
 paginate: 5
-theme: PaperMod
+theme: hugo-PaperMod
 
 copyright: ruihusky's Blog
 defaultContentLanguage: zh
@@ -56,7 +56,7 @@ params:
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowToc: true
-  comments: false
+  comments: true
 
   # label:
   #     text: "Home"
