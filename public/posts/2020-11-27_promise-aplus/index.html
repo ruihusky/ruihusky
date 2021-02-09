@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Promise实现原理（Promise/A&#43;规范） | ruihusky&#39;s Blog</title>
+
+<meta name="keywords" content="JavaScript" />
+<meta name="description" content="前言 Promise 对象用于表示一个异步操作的最终完成（或失败），及其结果值。它最早由社区提出和实现，其中有多种 Promise 规范。ES6 按照 Promise/A&#43; 规范将其写进了语言标准。 关于该规范的详情可参考：Promise/A&#43;规范 中文翻译。
+基础实现 我们先尝试实现最简单的 Promise 功能：通过 Promise 包装异步请求，并使用then方法注册回调函数，通过resolve方法通知 Promise 异步请求已解决，并执行回调函数。 模拟一个基础的异步 http 请求，并使用 Promise 封装：
+// 模拟http请求 const mockAjax = (url, s, callback) =&gt; { console.log(&#34;[mockAjax] start&#34;); setTimeout(() =&gt; { console.log(&#34;[mockAjax] callback&#34;); callback(&#34;异步结果：&#34; &#43; url &#43; &#34;异步请求耗时&#34; &#43; s &#43; &#34;秒&#34;); }, 1000 * s); }; // Promise基础功能 new Promise((resolve) =&gt; { mockAjax(&#34;getUserId&#34;, 1, function (result) { resolve(result); }); }) .then((result) =&gt; { console.">
+<meta name="author" content="ruihusky">
+<link rel="canonical" href="https://ruihusky.github.io/posts/2020-11-27_promise-aplus/" />
+<link href="/assets/css/stylesheet.min.5c4f6d85b7abfcfea458637c672d16a7a9c38c37f002753cfdc7f314b6d3c8f2.css" integrity="sha256-XE9thber/P6kWGN8Zy0Wp6nDjDfwAnU8/cfzFLbTyPI=" rel="preload stylesheet"
+    as="style">
+
+<link rel="icon" href="https://ruihusky.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ruihusky.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ruihusky.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ruihusky.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ruihusky.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+<meta property="og:title" content="Promise实现原理（Promise/A&#43;规范）" />
+<meta property="og:description" content="前言 Promise 对象用于表示一个异步操作的最终完成（或失败），及其结果值。它最早由社区提出和实现，其中有多种 Promise 规范。ES6 按照 Promise/A&#43; 规范将其写进了语言标准。 关于该规范的详情可参考：Promise/A&#43;规范 中文翻译。
+基础实现 我们先尝试实现最简单的 Promise 功能：通过 Promise 包装异步请求，并使用then方法注册回调函数，通过resolve方法通知 Promise 异步请求已解决，并执行回调函数。 模拟一个基础的异步 http 请求，并使用 Promise 封装：
+// 模拟http请求 const mockAjax = (url, s, callback) =&gt; { console.log(&#34;[mockAjax] start&#34;); setTimeout(() =&gt; { console.log(&#34;[mockAjax] callback&#34;); callback(&#34;异步结果：&#34; &#43; url &#43; &#34;异步请求耗时&#34; &#43; s &#43; &#34;秒&#34;); }, 1000 * s); }; // Promise基础功能 new Promise((resolve) =&gt; { mockAjax(&#34;getUserId&#34;, 1, function (result) { resolve(result); }); }) .then((result) =&gt; { console." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ruihusky.github.io/posts/2020-11-27_promise-aplus/" />
+<meta property="article:published_time" content="2020-11-27T20:00:00+08:00" />
+<meta property="article:modified_time" content="2020-11-27T20:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Promise实现原理（Promise/A&#43;规范）"/>
+<meta name="twitter:description" content="前言 Promise 对象用于表示一个异步操作的最终完成（或失败），及其结果值。它最早由社区提出和实现，其中有多种 Promise 规范。ES6 按照 Promise/A&#43; 规范将其写进了语言标准。 关于该规范的详情可参考：Promise/A&#43;规范 中文翻译。
+基础实现 我们先尝试实现最简单的 Promise 功能：通过 Promise 包装异步请求，并使用then方法注册回调函数，通过resolve方法通知 Promise 异步请求已解决，并执行回调函数。 模拟一个基础的异步 http 请求，并使用 Promise 封装：
+// 模拟http请求 const mockAjax = (url, s, callback) =&gt; { console.log(&#34;[mockAjax] start&#34;); setTimeout(() =&gt; { console.log(&#34;[mockAjax] callback&#34;); callback(&#34;异步结果：&#34; &#43; url &#43; &#34;异步请求耗时&#34; &#43; s &#43; &#34;秒&#34;); }, 1000 * s); }; // Promise基础功能 new Promise((resolve) =&gt; { mockAjax(&#34;getUserId&#34;, 1, function (result) { resolve(result); }); }) .then((result) =&gt; { console."/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Promise实现原理（Promise/A+规范）",
+  "name": "Promise实现原理（Promise\/A\u002b规范）",
+  "description": "前言 Promise 对象用于表示一个异步操作的最终完成（或失败），及其结果值。它最早由社区提出和实现，其中有多种 Promise 规范。ES6 按照 Promise/A+ 规范将其写进了语言标准。 关于该规范的详情可参考：Promise/A+规范 中文翻译。\n基础实现 我们先尝试实现最简单的 Promise 功能：通过 Promise 包装异步请求，并使 …",
+  "keywords": [
+    "JavaScript"
+  ],
+  "articleBody": "前言 Promise 对象用于表示一个异步操作的最终完成（或失败），及其结果值。它最早由社区提出和实现，其中有多种 Promise 规范。ES6 按照 Promise/A+ 规范将其写进了语言标准。 关于该规范的详情可参考：Promise/A+规范 中文翻译。\n基础实现 我们先尝试实现最简单的 Promise 功能：通过 Promise 包装异步请求，并使用then方法注册回调函数，通过resolve方法通知 Promise 异步请求已解决，并执行回调函数。 模拟一个基础的异步 http 请求，并使用 Promise 封装：\n// 模拟http请求 const mockAjax = (url, s, callback) = { console.log(\"[mockAjax] start\"); setTimeout(() = { console.log(\"[mockAjax] callback\"); callback(\"异步结果：\" + url + \"异步请求耗时\" + s + \"秒\"); }, 1000 * s); }; // Promise基础功能 new Promise((resolve) = { mockAjax(\"getUserId\", 1, function (result) { resolve(result); }); }) .then((result) = { console.log(\"[then] onFulfilled:\", result); }) .then((result) = { console.log(\"[then] onFulfilled:\", result); }); 实现思路  then用于注册回调函数，因此可以在 Promise 实例中维护一个回调函数队列。 then要求可以进行链式调用，考虑在then方法中return this。 Promise 的构造方法接受一个[resolve = {}]形式的函数，其中resolve方法接受异步请求的返回值并传递给then注册的回调函数。因此可以通过resolve方法调用回调函数队列中的函数。 这里的思路类似于观察者模式。  依照上述两点，我们可以做最简单的实现：\nclass Promise { // 回调队列  callbacks = []; // 构造函数传入需要执行的函数[形式为(resolve) = {}]  constructor(fn) { fn(this._resolve.bind(this)); } // then方法用于注册onFulfilled函数[形式为(value) = {}]  then(onFulfilled) { // 将onFulfilled函数添加到callbacks中  this.callbacks.push(onFulfilled); // 基础链式调用  return this; } // resolve被调用时执行注册过的onFulfilled函数  _resolve(value) { this.callbacks.forEach((fn) = fn(value)); } } 状态保存 在上面的实现中，存在这样的问题： 在resolve执行之后再通过then注册的回调函数不会执行。例如同步执行resolve，或者resolve之后再次调用then:\n// Promise const p = new Promise((resolve) = { // 同步执行的resolve，比then先执行  resolve(result); // 此处的回调不会执行 }).then((result) = { console.log(\"[then] onFulfilled:\", result); }); // 此处的回调不会执行 p.then((result) = { console.log(\"[then] onFulfilled:\", result); }); 为了解决这个问题，我们需要在 Promise 中保存状态和值。规范中规定，Promise 的状态可以从pending转换为fulfilled或者rejected，分别代表“处理中”、“已解决”、“已失败”。状态转换的过程是不可逆的。修改上文的实现如下：\n// 带基础链式调用功能的简单实现 class Promise { // 回调队列  callbacks = []; // Promise实例状态  state = \"pending\"; // Promise的值  value = null; // 构造函数传入需要执行的函数[形式为(resolve) = {}]  constructor(fn) { fn(this._resolve.bind(this)); } // then方法用于注册onFulfilled函数[形式为(value) = {}]  then(onFulfilled) { // 在Promise未解决之前，onFulfilled函数添加到callbacks中  if (this.state === \"pending\") { this.callbacks.push(onFulfilled); // 在Promise解决之后，直接执行onFulfilled函数  } else { onFulfilled(this.value); } // 基础链式调用  return this; } // resolve被调用时执行注册过的onFulfilled函数  _resolve(value) { // 改变状态  this.state = \"fulfilled\"; // 保存结果  this.value = value; this.callbacks.forEach((fn) = fn(value)); } } 参考代码：Promise：基础实现。\n进阶：链式调用 考虑如下一种链式调用的情形：\n// 在链式调用中传递值 new Promise((resolve) = { mockAjax(\"getUserId\", 1, function (result) { resolve(result); }); }) .then((result) = { console.log(\"[then] onFulfilled:\", result); return \"第一个then的返回值\"; }) .then((result) = { console.log(\"[then] onFulfilled:\", result); }); 注意到，第一个then方法最后返回了一个值，并且我们希望在第二个then方法中可以接收到。\n链式 Promise 首先，第二个then方法中接受的值与最初 Promise 的值是不同的；其次，Promise 的状态改变是不可逆的，因此我们不能在then方法中重新修改 Promise 的值，这不符合规范。那么只剩下一种可能来实现then的链式调用：then方法最终返回的是一个新的 Promise 实例，并且该实例的值就是第一个then方法中return语句的返回值，比如上例中的字符串\"第一个 then 的返回值\"。\n我们就依据上文的示例来理清一下思路：\n 第一个then方法注册的回调函数应该保存在第一个 Promise 实例之中（代称 p1），并且最终调用该回调函数的也应该是 p1 实例。 在 p1 实例调用回调函数时，需要获得回调函数的返回值，并且传递给下一个 Promise 实例(代称 p2)，也就是调用p2.resolve(/*回调函数的返回值*/)。 p2.then以及之后的链式调用思路是递归的。  理解以上几点之后，我们尝试实现：\n// 链式Promise class Promise { // 回调队列  callbacks = []; // Promise实例状态  state = \"pending\"; // Promise的值  value = null; // 构造函数传入需要执行的函数[形式为(resolve) = {}]  constructor(fn) { fn(this._resolve.bind(this)); } // _resolve方法用于改变Promise的状态为已解决，并执行回调队列[形式为(value) = {}]  _resolve(value) { // 改变状态，保存值  this.state = \"fulfilled\"; this.value = value; // 依次执行回调队列  this.callbacks.forEach((fn) = fn()); } // then方法用于注册onFulfilled函数[形式为(value) = {}]  then(onFulfilled) { // 返回了新的 Promise 实例，这样可实现真正的链式调用  const nextPromise = new Promise((resolve) = { if (this.state === \"pending\") { this.callbacks.push(() = { this._execCb(onFulfilled, resolve); }); return; } if (this.state === \"fulfilled\") { this._execCb(onFulfilled, resolve); return; } }); return nextPromise; } _execCb(cb, resolve) { const x = cb(this.value); resolve(x); } } 核心思路就是通过递归实现链式调用，可能不那么容易看懂，这里列出几个要点以帮助理解：\n _execCb方法负责执行回调函数，并且将回调函数的返回值通过resolve(x)传递给下一个 Promise。 then方法中，先创建了新的 Promise，并且在其构造函数中，根据当前 Promise 的状态选择执行回调函数或者将该操作放入回调队列。 _resolve方法负责改变 Promise 的状态为已解决，并按顺序执行回调队列。  仔细理解以上三点，再总结一下核心思路：前一个 Promise 执行resolve时，回调队列将被执行，并且回调队列中所执行函数的返回值通过下一个 Promise 的resolve传入。这就是通过链式 Promise 实现链式调用的基础。\n当返回值为 Promise 考虑如下一个应用场景：\n// 在链式调用中传递Promise new Promise((resolve) = { mockAjax(\"getUserId\", 1, function (result) { resolve(result); }); }) .then((result) = { console.log(\"[then] onFulfilled:\", result); return new Promise((resolve) = { resolve(\"第一个then返回了一个Promise\"); }); }) .then((result) = { console.log(\"[then] onFulfilled:\", result); }); 当注册的回调函数返回了一个 Promise 时，我们希望之后注册的回调队列能等待该 Promise 改变状态再执行，这又如何实现呢？在理解上文的基础上，我们理清一下思路：\n 按照之前的逻辑，第一个then方法将生成一个 Promise(代称 p1)，并且回调函数将返回一个 Promise 实例(代称 p2)。 如果 p2 的状态依旧为pending，则需要等待其状态改变，再执行 p1 相应的状态改变方法。  其实这部分内容在 Promise/A+规范：Promise 解决过程 一节中有详细的处理逻辑，这里引用一部分内容：\n Promise 解决过程是一个抽象的操作，其需输入一个promise和一个值，我们表示为[[Resolve]](promise, x)，如果x有then方法且看上去像一个 Promise ，解决程序即尝试使promise接受x的状态；否则其用x的值来执行promise。\n 更多详细的说明大家可以点击链接查看。\n在这里我们先简化问题，只考虑回调函数返回值为 Promise 这一种特殊情况，且不处理 rejected 状态。\n首先明白一个概念：在获得回调函数的返回值后，根据该返回值处理下一个 Promise 的过程称之为 Promise 解决过程。在该过程中，判断回调函数返回值为 Promise 时，调用该 Promise 的 then 方法，将此次解决过程注册为回调函数延迟执行。这一段有点绕，我们参考代码理解：\n// Promise解决过程 function resolvePromise(promise, x, resolve) { if (x instanceof Promise) { const then = x.then; then.call(x, (y) = { resolvePromise(promise, y, resolve); }); return; } resolve(x); } // 链式Promise class Promise { // 回调队列  callbacks = []; // Promise实例状态  state = \"pending\"; // Promise的值  value = null; // 构造函数传入需要执行的函数[形式为(resolve) = {}]  constructor(fn) { fn(this._resolve.bind(this)); } // _resolve方法用于改变Promise的状态为已解决，并执行回调队列[形式为(value) = {}]  _resolve(value) { // 改变状态，保存值  this.state = \"fulfilled\"; this.value = value; // 依次执行回调队列  this.callbacks.forEach((fn) = fn()); } // then方法用于注册onFulfilled函数[形式为(value) = {}]  then(onFulfilled) { // 返回了新的 Promise 实例，这样可实现真正的链式调用  const nextPromise = new Promise((resolve) = { if (this.state === \"pending\") { this.callbacks.push(() = { // 必须异步执行，否则无法获取nextPromise对象  setTimeout(() = { this._execCb(onFulfilled, nextPromise, resolve); }); }); return; } if (this.state === \"fulfilled\") { // 必须异步执行，否则无法获取nextPromise对象  setTimeout(() = { this._execCb(onFulfilled, nextPromise, resolve); }); return; } }); return nextPromise; } _execCb(cb, nextPromise, resolve) { const x = cb(this.value); resolvePromise(nextPromise, x, resolve); } } 这部分内容可能不易理解，请大家多动手多思考。这一节的完整代码可参考：Promise：链式调用实现。\n完整实现 上文已经将 Promise 的核心逻辑实现。在理解了这部分的基础上，参照规范将其余部分进行实现应该不难了。 剩下的工作主要在于添加 rejected 状态处理，以及考虑一些边界条件(例如当resolve传递了Promise实例本身导致链式调用进入死循环)。 完整的实现代码可以参考：Promise/A+完整实现。\n",
+  "wordCount" : "657",
+  "inLanguage": "zh",
+  "datePublished": "2020-11-27T20:00:00+08:00",
+  "dateModified": "2020-11-27T20:00:00+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "ruihusky"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://ruihusky.github.io/posts/2020-11-27_promise-aplus/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ruihusky's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ruihusky.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        .theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://ruihusky.github.io/" accesskey="h" title="ruihusky&#39;s Blog (Alt + H)">ruihusky&#39;s Blog</a>
+            <span class="logo-switches">
+                <span class="theme-toggle" title="(Alt + T)">
+                    <a id="theme-toggle" accesskey="t">
+                        <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                        <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </a>
+                </span>
+                
+            </span>
+        </div>
+        <ul class="menu" id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://ruihusky.github.io/archives" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ruihusky.github.io/categories" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ruihusky.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ruihusky.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li></ul>
+    </nav>
+</header>
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <h1 class="post-title">
+      Promise实现原理（Promise/A&#43;规范）
+    </h1>
+    <div class="post-description">
+      
+    </div>
+    <div class="post-meta">
+
+November 27, 2020&nbsp;·&nbsp;ruihusky
+
+    </div>
+  </header> 
+
+  <div class="toc">
+    <details >
+      <summary accesskey="c" title="(Alt + C)">
+        <div class="details">目录</div>
+      </summary>
+      <blockquote><ul><li>
+        <a href="#%e5%89%8d%e8%a8%80" aria-label="前言">前言</a></li><li>
+        <a href="#%e5%9f%ba%e7%a1%80%e5%ae%9e%e7%8e%b0" aria-label="基础实现">基础实现</a><ul>
+            <li>
+        <a href="#%e5%ae%9e%e7%8e%b0%e6%80%9d%e8%b7%af" aria-label="实现思路">实现思路</a></li><li>
+        <a href="#%e7%8a%b6%e6%80%81%e4%bf%9d%e5%ad%98" aria-label="状态保存">状态保存</a></li></ul>
+    </li><li>
+        <a href="#%e8%bf%9b%e9%98%b6%e9%93%be%e5%bc%8f%e8%b0%83%e7%94%a8" aria-label="进阶：链式调用">进阶：链式调用</a><ul>
+            <li>
+        <a href="#%e9%93%be%e5%bc%8f-promise" aria-label="链式 Promise">链式 Promise</a></li><li>
+        <a href="#%e5%bd%93%e8%bf%94%e5%9b%9e%e5%80%bc%e4%b8%ba-promise" aria-label="当返回值为 Promise">当返回值为 Promise</a></li></ul>
+    </li><li>
+        <a href="#%e5%ae%8c%e6%95%b4%e5%ae%9e%e7%8e%b0" aria-label="完整实现">完整实现</a></li></ul>
+      </blockquote>
+    </details>
+  </div>
+  <div class="post-content">
+<h2 id="前言">前言<a hidden class="anchor" aria-hidden="true" href="#前言">#</a></h2>
+<p>Promise 对象用于表示一个异步操作的最终完成（或失败），及其结果值。它最早由社区提出和实现，其中有多种 Promise 规范。ES6 按照 Promise/A+ 规范将其写进了语言标准。
+关于该规范的详情可参考：<a href="https://www.ituring.com.cn/article/66566">Promise/A+规范 中文翻译</a>。</p>
+<h2 id="基础实现">基础实现<a hidden class="anchor" aria-hidden="true" href="#基础实现">#</a></h2>
+<p>我们先尝试实现最简单的 Promise 功能：通过 Promise 包装异步请求，并使用<code>then</code>方法注册回调函数，通过<code>resolve</code>方法通知 Promise 异步请求已解决，并执行回调函数。
+模拟一个基础的异步 http 请求，并使用 Promise 封装：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// 模拟http请求
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">mockAjax</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">url</span>, <span style="color:#a6e22e">s</span>, <span style="color:#a6e22e">callback</span>) =&gt; {
+  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;[mockAjax] start&#34;</span>);
+  <span style="color:#a6e22e">setTimeout</span>(() =&gt; {
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;[mockAjax] callback&#34;</span>);
+    <span style="color:#a6e22e">callback</span>(<span style="color:#e6db74">&#34;异步结果：&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">url</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;异步请求耗时&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">s</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;秒&#34;</span>);
+  }, <span style="color:#ae81ff">1000</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">s</span>);
+};
+<span style="color:#75715e">// Promise基础功能
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>) =&gt; {
+  <span style="color:#a6e22e">mockAjax</span>(<span style="color:#e6db74">&#34;getUserId&#34;</span>, <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">result</span>) {
+    <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">result</span>);
+  });
+})
+  .<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">result</span>) =&gt; {
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;[then] onFulfilled:&#34;</span>, <span style="color:#a6e22e">result</span>);
+  })
+  .<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">result</span>) =&gt; {
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;[then] onFulfilled:&#34;</span>, <span style="color:#a6e22e">result</span>);
+  });
+</code></pre></div><h3 id="实现思路">实现思路<a hidden class="anchor" aria-hidden="true" href="#实现思路">#</a></h3>
+<ul>
+<li><code>then</code>用于注册回调函数，因此可以在 Promise 实例中维护一个回调函数队列。</li>
+<li><code>then</code>要求可以进行链式调用，考虑在<code>then</code>方法中<code>return this</code>。</li>
+<li>Promise 的构造方法接受一个<code>[resolve =&gt; {}]</code>形式的函数，其中<code>resolve</code>方法接受异步请求的返回值并传递给<code>then</code>注册的回调函数。因此可以通过<code>resolve</code>方法调用回调函数队列中的函数。</li>
+<li>这里的思路类似于观察者模式。</li>
+</ul>
+<p>依照上述两点，我们可以做最简单的实现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">class</span> Promise {
+  <span style="color:#75715e">// 回调队列
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">callbacks</span> <span style="color:#f92672">=</span> [];
+  <span style="color:#75715e">// 构造函数传入需要执行的函数[形式为(resolve) =&gt; {}]
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">constructor</span>(<span style="color:#a6e22e">fn</span>) {
+    <span style="color:#a6e22e">fn</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_resolve</span>.<span style="color:#a6e22e">bind</span>(<span style="color:#66d9ef">this</span>));
+  }
+  <span style="color:#75715e">// then方法用于注册onFulfilled函数[形式为(value) =&gt; {}]
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">onFulfilled</span>) {
+    <span style="color:#75715e">// 将onFulfilled函数添加到callbacks中
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">callbacks</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">onFulfilled</span>);
+    <span style="color:#75715e">// 基础链式调用
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>;
+  }
+  <span style="color:#75715e">// resolve被调用时执行注册过的onFulfilled函数
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">_resolve</span>(<span style="color:#a6e22e">value</span>) {
+    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">callbacks</span>.<span style="color:#a6e22e">forEach</span>((<span style="color:#a6e22e">fn</span>) =&gt; <span style="color:#a6e22e">fn</span>(<span style="color:#a6e22e">value</span>));
+  }
+}
+</code></pre></div><h3 id="状态保存">状态保存<a hidden class="anchor" aria-hidden="true" href="#状态保存">#</a></h3>
+<p>在上面的实现中，存在这样的问题：
+在<code>resolve</code>执行之后再通过<code>then</code>注册的回调函数不会执行。例如同步执行<code>resolve</code>，或者<code>resolve</code>之后再次调用<code>then</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// Promise
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">p</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>) =&gt; {
+  <span style="color:#75715e">// 同步执行的resolve，比then先执行
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">result</span>);
+  <span style="color:#75715e">// 此处的回调不会执行
+</span><span style="color:#75715e"></span>}).<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">result</span>) =&gt; {
+  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;[then] onFulfilled:&#34;</span>, <span style="color:#a6e22e">result</span>);
+});
+
+<span style="color:#75715e">// 此处的回调不会执行
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">result</span>) =&gt; {
+  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;[then] onFulfilled:&#34;</span>, <span style="color:#a6e22e">result</span>);
+});
+</code></pre></div><p>为了解决这个问题，我们需要在 Promise 中保存状态和值。规范中规定，Promise 的状态可以从<code>pending</code>转换为<code>fulfilled</code>或者<code>rejected</code>，分别代表“处理中”、“已解决”、“已失败”。状态转换的过程是不可逆的。修改上文的实现如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// 带基础链式调用功能的简单实现
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> Promise {
+  <span style="color:#75715e">// 回调队列
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">callbacks</span> <span style="color:#f92672">=</span> [];
+  <span style="color:#75715e">// Promise实例状态
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">state</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;pending&#34;</span>;
+  <span style="color:#75715e">// Promise的值
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+  <span style="color:#75715e">// 构造函数传入需要执行的函数[形式为(resolve) =&gt; {}]
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">constructor</span>(<span style="color:#a6e22e">fn</span>) {
+    <span style="color:#a6e22e">fn</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_resolve</span>.<span style="color:#a6e22e">bind</span>(<span style="color:#66d9ef">this</span>));
+  }
+  <span style="color:#75715e">// then方法用于注册onFulfilled函数[形式为(value) =&gt; {}]
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">onFulfilled</span>) {
+    <span style="color:#75715e">// 在Promise未解决之前，onFulfilled函数添加到callbacks中
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;pending&#34;</span>) {
+      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">callbacks</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">onFulfilled</span>);
+      <span style="color:#75715e">// 在Promise解决之后，直接执行onFulfilled函数
+</span><span style="color:#75715e"></span>    } <span style="color:#66d9ef">else</span> {
+      <span style="color:#a6e22e">onFulfilled</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">value</span>);
+    }
+    <span style="color:#75715e">// 基础链式调用
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>;
+  }
+  <span style="color:#75715e">// resolve被调用时执行注册过的onFulfilled函数
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">_resolve</span>(<span style="color:#a6e22e">value</span>) {
+    <span style="color:#75715e">// 改变状态
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;fulfilled&#34;</span>;
+    <span style="color:#75715e">// 保存结果
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">value</span>;
+    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">callbacks</span>.<span style="color:#a6e22e">forEach</span>((<span style="color:#a6e22e">fn</span>) =&gt; <span style="color:#a6e22e">fn</span>(<span style="color:#a6e22e">value</span>));
+  }
+}
+</code></pre></div><p>参考代码：<a href="https://github.com/ruihusky/ruihusky/blob/main/src/javascript/promise/promise-1.js">Promise：基础实现</a>。</p>
+<h2 id="进阶链式调用">进阶：链式调用<a hidden class="anchor" aria-hidden="true" href="#进阶链式调用">#</a></h2>
+<p>考虑如下一种链式调用的情形：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// 在链式调用中传递值
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>) =&gt; {
+  <span style="color:#a6e22e">mockAjax</span>(<span style="color:#e6db74">&#34;getUserId&#34;</span>, <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">result</span>) {
+    <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">result</span>);
+  });
+})
+  .<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">result</span>) =&gt; {
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;[then] onFulfilled:&#34;</span>, <span style="color:#a6e22e">result</span>);
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;第一个then的返回值&#34;</span>;
+  })
+  .<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">result</span>) =&gt; {
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;[then] onFulfilled:&#34;</span>, <span style="color:#a6e22e">result</span>);
+  });
+</code></pre></div><p>注意到，第一个<code>then</code>方法最后返回了一个值，并且我们希望在第二个<code>then</code>方法中可以接收到。</p>
+<h3 id="链式-promise">链式 Promise<a hidden class="anchor" aria-hidden="true" href="#链式-promise">#</a></h3>
+<p>首先，第二个<code>then</code>方法中接受的值与最初 Promise 的值是不同的；其次，Promise 的状态改变是不可逆的，因此我们不能在<code>then</code>方法中重新修改 Promise 的值，这不符合规范。那么只剩下一种可能来实现<code>then</code>的链式调用：<code>then</code>方法最终返回的是一个新的 Promise 实例，并且该实例的值就是第一个<code>then</code>方法中<code>return</code>语句的返回值，比如上例中的字符串<code>&quot;第一个 then 的返回值&quot;</code>。</p>
+<p>我们就依据上文的示例来理清一下思路：</p>
+<ul>
+<li>第一个<code>then</code>方法注册的回调函数应该保存在第一个 Promise 实例之中（代称 p1），并且最终调用该回调函数的也应该是 p1 实例。</li>
+<li>在 p1 实例调用回调函数时，需要获得回调函数的返回值，并且传递给下一个 Promise 实例(代称 p2)，也就是调用<code>p2.resolve(/*回调函数的返回值*/)</code>。</li>
+<li><code>p2.then</code>以及之后的链式调用思路是递归的。</li>
+</ul>
+<p>理解以上几点之后，我们尝试实现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// 链式Promise
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> Promise {
+  <span style="color:#75715e">// 回调队列
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">callbacks</span> <span style="color:#f92672">=</span> [];
+  <span style="color:#75715e">// Promise实例状态
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">state</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;pending&#34;</span>;
+  <span style="color:#75715e">// Promise的值
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+  <span style="color:#75715e">// 构造函数传入需要执行的函数[形式为(resolve) =&gt; {}]
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">constructor</span>(<span style="color:#a6e22e">fn</span>) {
+    <span style="color:#a6e22e">fn</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_resolve</span>.<span style="color:#a6e22e">bind</span>(<span style="color:#66d9ef">this</span>));
+  }
+
+  <span style="color:#75715e">// _resolve方法用于改变Promise的状态为已解决，并执行回调队列[形式为(value) =&gt; {}]
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">_resolve</span>(<span style="color:#a6e22e">value</span>) {
+    <span style="color:#75715e">// 改变状态，保存值
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;fulfilled&#34;</span>;
+    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">value</span>;
+    <span style="color:#75715e">// 依次执行回调队列
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">callbacks</span>.<span style="color:#a6e22e">forEach</span>((<span style="color:#a6e22e">fn</span>) =&gt; <span style="color:#a6e22e">fn</span>());
+  }
+
+  <span style="color:#75715e">// then方法用于注册onFulfilled函数[形式为(value) =&gt; {}]
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">onFulfilled</span>) {
+    <span style="color:#75715e">// 返回了新的 Promise 实例，这样可实现真正的链式调用
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">nextPromise</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>) =&gt; {
+      <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;pending&#34;</span>) {
+        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">callbacks</span>.<span style="color:#a6e22e">push</span>(() =&gt; {
+          <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_execCb</span>(<span style="color:#a6e22e">onFulfilled</span>, <span style="color:#a6e22e">resolve</span>);
+        });
+        <span style="color:#66d9ef">return</span>;
+      }
+
+      <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;fulfilled&#34;</span>) {
+        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_execCb</span>(<span style="color:#a6e22e">onFulfilled</span>, <span style="color:#a6e22e">resolve</span>);
+        <span style="color:#66d9ef">return</span>;
+      }
+    });
+
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nextPromise</span>;
+  }
+
+  <span style="color:#a6e22e">_execCb</span>(<span style="color:#a6e22e">cb</span>, <span style="color:#a6e22e">resolve</span>) {
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">cb</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">value</span>);
+    <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">x</span>);
+  }
+}
+</code></pre></div><p>核心思路就是通过递归实现链式调用，可能不那么容易看懂，这里列出几个要点以帮助理解：</p>
+<ul>
+<li><code>_execCb</code>方法负责执行回调函数，并且将回调函数的返回值通过<code>resolve(x)</code>传递给下一个 Promise。</li>
+<li><code>then</code>方法中，先创建了新的 Promise，并且在其构造函数中，根据当前 Promise 的状态选择执行回调函数或者将该操作放入回调队列。</li>
+<li><code>_resolve</code>方法负责改变 Promise 的状态为已解决，并按顺序执行回调队列。</li>
+</ul>
+<p>仔细理解以上三点，再总结一下核心思路：前一个 Promise 执行<code>resolve</code>时，回调队列将被执行，并且回调队列中所执行函数的返回值通过下一个 Promise 的<code>resolve</code>传入。这就是通过链式 Promise 实现链式调用的基础。</p>
+<h3 id="当返回值为-promise">当返回值为 Promise<a hidden class="anchor" aria-hidden="true" href="#当返回值为-promise">#</a></h3>
+<p>考虑如下一个应用场景：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// 在链式调用中传递Promise
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>) =&gt; {
+  <span style="color:#a6e22e">mockAjax</span>(<span style="color:#e6db74">&#34;getUserId&#34;</span>, <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">result</span>) {
+    <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">result</span>);
+  });
+})
+  .<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">result</span>) =&gt; {
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;[then] onFulfilled:&#34;</span>, <span style="color:#a6e22e">result</span>);
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>) =&gt; {
+      <span style="color:#a6e22e">resolve</span>(<span style="color:#e6db74">&#34;第一个then返回了一个Promise&#34;</span>);
+    });
+  })
+  .<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">result</span>) =&gt; {
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;[then] onFulfilled:&#34;</span>, <span style="color:#a6e22e">result</span>);
+  });
+</code></pre></div><p>当注册的回调函数返回了一个 Promise 时，我们希望之后注册的回调队列能等待该 Promise 改变状态再执行，这又如何实现呢？在理解上文的基础上，我们理清一下思路：</p>
+<ul>
+<li>按照之前的逻辑，第一个<code>then</code>方法将生成一个 Promise(代称 p1)，并且回调函数将返回一个 Promise 实例(代称 p2)。</li>
+<li>如果 p2 的状态依旧为<code>pending</code>，则需要等待其状态改变，再执行 p1 相应的状态改变方法。</li>
+</ul>
+<p>其实这部分内容在 <a href="https://www.ituring.com.cn/article/66566">Promise/A+规范：Promise 解决过程</a> 一节中有详细的处理逻辑，这里引用一部分内容：</p>
+<blockquote>
+<p>Promise 解决过程是一个抽象的操作，其需输入一个<code>promise</code>和一个值，我们表示为<code>[[Resolve]](promise, x)</code>，如果<code>x</code>有<code>then</code>方法且看上去像一个 Promise ，解决程序即尝试使<code>promise</code>接受<code>x</code>的状态；否则其用<code>x</code>的值来执行<code>promise</code>。</p>
+</blockquote>
+<p>更多详细的说明大家可以点击链接查看。</p>
+<p>在这里我们先简化问题，只考虑回调函数返回值为 Promise 这一种特殊情况，且不处理 rejected 状态。</p>
+<p>首先明白一个概念：在获得回调函数的返回值后，根据该返回值处理下一个 Promise 的过程称之为 <strong>Promise 解决过程</strong>。在该过程中，<strong>判断回调函数返回值为 Promise 时，调用该 Promise 的 then 方法，将此次解决过程注册为回调函数延迟执行</strong>。这一段有点绕，我们参考代码理解：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// Promise解决过程
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">resolvePromise</span>(<span style="color:#a6e22e">promise</span>, <span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">resolve</span>) {
+  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">x</span> <span style="color:#66d9ef">instanceof</span> Promise) {
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">then</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">x</span>.<span style="color:#a6e22e">then</span>;
+    <span style="color:#a6e22e">then</span>.<span style="color:#a6e22e">call</span>(<span style="color:#a6e22e">x</span>, (<span style="color:#a6e22e">y</span>) =&gt; {
+      <span style="color:#a6e22e">resolvePromise</span>(<span style="color:#a6e22e">promise</span>, <span style="color:#a6e22e">y</span>, <span style="color:#a6e22e">resolve</span>);
+    });
+    <span style="color:#66d9ef">return</span>;
+  }
+  <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">x</span>);
+}
+
+<span style="color:#75715e">// 链式Promise
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> Promise {
+  <span style="color:#75715e">// 回调队列
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">callbacks</span> <span style="color:#f92672">=</span> [];
+  <span style="color:#75715e">// Promise实例状态
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">state</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;pending&#34;</span>;
+  <span style="color:#75715e">// Promise的值
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+  <span style="color:#75715e">// 构造函数传入需要执行的函数[形式为(resolve) =&gt; {}]
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">constructor</span>(<span style="color:#a6e22e">fn</span>) {
+    <span style="color:#a6e22e">fn</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_resolve</span>.<span style="color:#a6e22e">bind</span>(<span style="color:#66d9ef">this</span>));
+  }
+
+  <span style="color:#75715e">// _resolve方法用于改变Promise的状态为已解决，并执行回调队列[形式为(value) =&gt; {}]
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">_resolve</span>(<span style="color:#a6e22e">value</span>) {
+    <span style="color:#75715e">// 改变状态，保存值
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;fulfilled&#34;</span>;
+    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">value</span>;
+    <span style="color:#75715e">// 依次执行回调队列
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">callbacks</span>.<span style="color:#a6e22e">forEach</span>((<span style="color:#a6e22e">fn</span>) =&gt; <span style="color:#a6e22e">fn</span>());
+  }
+
+  <span style="color:#75715e">// then方法用于注册onFulfilled函数[形式为(value) =&gt; {}]
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">onFulfilled</span>) {
+    <span style="color:#75715e">// 返回了新的 Promise 实例，这样可实现真正的链式调用
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">nextPromise</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>) =&gt; {
+      <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;pending&#34;</span>) {
+        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">callbacks</span>.<span style="color:#a6e22e">push</span>(() =&gt; {
+          <span style="color:#75715e">// 必须异步执行，否则无法获取nextPromise对象
+</span><span style="color:#75715e"></span>          <span style="color:#a6e22e">setTimeout</span>(() =&gt; {
+            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_execCb</span>(<span style="color:#a6e22e">onFulfilled</span>, <span style="color:#a6e22e">nextPromise</span>, <span style="color:#a6e22e">resolve</span>);
+          });
+        });
+        <span style="color:#66d9ef">return</span>;
+      }
+
+      <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;fulfilled&#34;</span>) {
+        <span style="color:#75715e">// 必须异步执行，否则无法获取nextPromise对象
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">setTimeout</span>(() =&gt; {
+          <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_execCb</span>(<span style="color:#a6e22e">onFulfilled</span>, <span style="color:#a6e22e">nextPromise</span>, <span style="color:#a6e22e">resolve</span>);
+        });
+        <span style="color:#66d9ef">return</span>;
+      }
+    });
+
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nextPromise</span>;
+  }
+
+  <span style="color:#a6e22e">_execCb</span>(<span style="color:#a6e22e">cb</span>, <span style="color:#a6e22e">nextPromise</span>, <span style="color:#a6e22e">resolve</span>) {
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">cb</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">value</span>);
+    <span style="color:#a6e22e">resolvePromise</span>(<span style="color:#a6e22e">nextPromise</span>, <span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">resolve</span>);
+  }
+}
+</code></pre></div><p>这部分内容可能不易理解，请大家多动手多思考。这一节的完整代码可参考：<a href="https://github.com/ruihusky/ruihusky/blob/main/src/javascript/promise/promise-2.js">Promise：链式调用实现</a>。</p>
+<h2 id="完整实现">完整实现<a hidden class="anchor" aria-hidden="true" href="#完整实现">#</a></h2>
+<p>上文已经将 Promise 的核心逻辑实现。在理解了这部分的基础上，参照规范将其余部分进行实现应该不难了。
+剩下的工作主要在于添加 <strong>rejected</strong> 状态处理，以及考虑一些边界条件(例如当<code>resolve</code>传递了<code>Promise</code>实例本身导致链式调用进入死循环)。
+完整的实现代码可以参考：<a href="https://github.com/ruihusky/ruihusky/blob/main/src/javascript/promise/promise-aplus.js">Promise/A+完整实现</a>。</p>
+
+</div>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://ruihusky.github.io/tags/javascript/">JavaScript</a></li>
+    </ul>
+  </footer>
+</article>
+    </main><footer class="footer">
+    <span>ruihusky&rsquo;s Blog</span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+
+
+<script defer src="/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js" integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.replaceState(null, null, `#${id}`);
+            }
+        });
+    });
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+</body>
+
+</html>

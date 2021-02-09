@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>CSS flex-basis: auto 与弹性布局 | ruihusky&#39;s Blog</title>
+
+<meta name="keywords" content="CSS, Flex布局" />
+<meta name="description" content="flex 布局中的问题 最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：
+页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局促了。
+我一想，使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：
+&lt;div class=&#34;page-container&#34;&gt; &lt;!-- ...其他flex子项 --&gt; &lt;div class=&#34;image-wrap&#34;&gt; &lt;!-- 为了实现多个动画效果，图片被一个div包裹 --&gt; &lt;img class=&#34;image&#34; src=&#34;...&#34; /&gt; &lt;/div&gt; &lt;!-- ...其他flex子项 --&gt; &lt;/div&gt; &lt;!-- vue css scope --&gt; &lt;style&gt; .page-container { width: 750px; /* 父元素固定100vh */ height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; } .image-wrap { /* 让flex子元素自动伸展、自动压缩，并且设置最大、最小高度 */ flex-grow: 1; flex-shrink: 1; max-height: 688px; min-height: 613px; } .">
+<meta name="author" content="ruihusky">
+<link rel="canonical" href="https://ruihusky.github.io/posts/2021-01-26_css-flex-basis/" />
+<link href="/assets/css/stylesheet.min.5c4f6d85b7abfcfea458637c672d16a7a9c38c37f002753cfdc7f314b6d3c8f2.css" integrity="sha256-XE9thber/P6kWGN8Zy0Wp6nDjDfwAnU8/cfzFLbTyPI=" rel="preload stylesheet"
+    as="style">
+
+<link rel="icon" href="https://ruihusky.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ruihusky.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ruihusky.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ruihusky.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ruihusky.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+<meta property="og:title" content="CSS flex-basis: auto 与弹性布局" />
+<meta property="og:description" content="flex 布局中的问题 最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：
+页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局促了。
+我一想，使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：
+&lt;div class=&#34;page-container&#34;&gt; &lt;!-- ...其他flex子项 --&gt; &lt;div class=&#34;image-wrap&#34;&gt; &lt;!-- 为了实现多个动画效果，图片被一个div包裹 --&gt; &lt;img class=&#34;image&#34; src=&#34;...&#34; /&gt; &lt;/div&gt; &lt;!-- ...其他flex子项 --&gt; &lt;/div&gt; &lt;!-- vue css scope --&gt; &lt;style&gt; .page-container { width: 750px; /* 父元素固定100vh */ height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; } .image-wrap { /* 让flex子元素自动伸展、自动压缩，并且设置最大、最小高度 */ flex-grow: 1; flex-shrink: 1; max-height: 688px; min-height: 613px; } ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ruihusky.github.io/posts/2021-01-26_css-flex-basis/" />
+<meta property="article:published_time" content="2021-01-26T20:00:00+08:00" />
+<meta property="article:modified_time" content="2021-01-26T20:00:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CSS flex-basis: auto 与弹性布局"/>
+<meta name="twitter:description" content="flex 布局中的问题 最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：
+页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局促了。
+我一想，使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：
+&lt;div class=&#34;page-container&#34;&gt; &lt;!-- ...其他flex子项 --&gt; &lt;div class=&#34;image-wrap&#34;&gt; &lt;!-- 为了实现多个动画效果，图片被一个div包裹 --&gt; &lt;img class=&#34;image&#34; src=&#34;...&#34; /&gt; &lt;/div&gt; &lt;!-- ...其他flex子项 --&gt; &lt;/div&gt; &lt;!-- vue css scope --&gt; &lt;style&gt; .page-container { width: 750px; /* 父元素固定100vh */ height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; } .image-wrap { /* 让flex子元素自动伸展、自动压缩，并且设置最大、最小高度 */ flex-grow: 1; flex-shrink: 1; max-height: 688px; min-height: 613px; } ."/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "CSS flex-basis: auto 与弹性布局",
+  "name": "CSS flex-basis: auto 与弹性布局",
+  "description": "flex 布局中的问题 最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：\n页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局 …",
+  "keywords": [
+    "CSS", "Flex布局"
+  ],
+  "articleBody": "flex 布局中的问题 最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：\n页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局促了。\n我一想，使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：\ndiv class=\"page-container\"  div class=\"image-wrap\"  img class=\"image\" src=\"...\" / div  div  style .page-container { width: 750px; /* 父元素固定100vh */ height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; } .image-wrap { /* 让flex子元素自动伸展、自动压缩，并且设置最大、最小高度 */ flex-grow: 1; flex-shrink: 1; max-height: 688px; min-height: 613px; } .image { /* 跟随父元素的高度变化 */ height: 100%; } style 在 Chrome 中使用移动设备仿真，各种不同高度下的效果都 OK 了。结果用自己的 iPhone 再看却出了问题：图片没有按照预想的那样自动调整高度，而是保持原始图片的大小不变。\n于是我上网搜索了有关 flex 布局与 min/max 尺寸限制相关的资料，最后的解决方案是：给 .image-wrap 元素加上 flex-basis: 688px 这一行样式。\n关于 flex-basis: auto 为了彻底弄明白问题出在哪里，有必要进一步了解 flex-basis 属性。以前我只是简单的以为它大概就和 width 属性一样，设置不设置都没关系。研究过后才发现这个属性有着诸多细节。（这里为了简化说明，只探讨 flex-direction: row 的情形）\n在 flex 布局中，一个 flex 子项的最终尺寸是基础尺寸、弹性增长或收缩、最大最小尺寸限制共同作用的结果。其中：\n 基础尺寸由 flex-basis、width 等属性以及 box-sizing 盒模型共同决定； 弹性增长指的是 flex-grow 属性，弹性收缩指的是 flex-shrink 属性； 最大最小尺寸限制指的是 min-width / max-width 等 CSS 属性，以及 min-content 最小内容尺寸。  其中优先级为：最大最小尺寸限制  弹性增长或收缩  基础尺寸。\n按照这个理论，在上文的例子中，我已经设置好了 max-height、min-height、flex-grow、flex-shrink，虽然没有设置 flex-basis，也不应该影响结果才对。\n当我没有设置 flex-basis 时，它就是默认值 auto。此时 flex 子项的 flex-basis 根据其自身的尺寸决定，由 box-sizing 盒模型、 width / min-width / max-width 等属性以及 content 内容（min-content 最小宽度）共同决定。看来在 Chrome 和 Safari 下对于flex-basis: auto 的处理有些不一致。\n看来以后在使用弹性布局时，最好是明确给出 flex-basis 的值。\n",
+  "wordCount" : "167",
+  "inLanguage": "zh",
+  "datePublished": "2021-01-26T20:00:00+08:00",
+  "dateModified": "2021-01-26T20:00:00+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "ruihusky"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://ruihusky.github.io/posts/2021-01-26_css-flex-basis/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ruihusky's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ruihusky.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        .theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://ruihusky.github.io/" accesskey="h" title="ruihusky&#39;s Blog (Alt + H)">ruihusky&#39;s Blog</a>
+            <span class="logo-switches">
+                <span class="theme-toggle" title="(Alt + T)">
+                    <a id="theme-toggle" accesskey="t">
+                        <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                        <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </a>
+                </span>
+                
+            </span>
+        </div>
+        <ul class="menu" id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://ruihusky.github.io/archives" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ruihusky.github.io/categories" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ruihusky.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ruihusky.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li></ul>
+    </nav>
+</header>
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <h1 class="post-title">
+      CSS flex-basis: auto 与弹性布局
+    </h1>
+    <div class="post-description">
+      
+    </div>
+    <div class="post-meta">
+
+January 26, 2021&nbsp;·&nbsp;ruihusky
+
+    </div>
+  </header> 
+
+  <div class="toc">
+    <details >
+      <summary accesskey="c" title="(Alt + C)">
+        <div class="details">目录</div>
+      </summary>
+      <blockquote><ul><li>
+        <a href="#flex-%e5%b8%83%e5%b1%80%e4%b8%ad%e7%9a%84%e9%97%ae%e9%a2%98" aria-label="flex 布局中的问题">flex 布局中的问题</a></li><li>
+        <a href="#%e5%85%b3%e4%ba%8e-flex-basis-auto" aria-label="关于 flex-basis: auto">关于 flex-basis: auto</a></li></ul>
+      </blockquote>
+    </details>
+  </div>
+  <div class="post-content">
+<h2 id="flex-布局中的问题">flex 布局中的问题<a hidden class="anchor" aria-hidden="true" href="#flex-布局中的问题">#</a></h2>
+<p>最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：</p>
+<p>页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局促了。</p>
+<p>我一想，使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;page-container&#34;</span>&gt;
+  <span style="color:#75715e">&lt;!-- ...其他flex子项 --&gt;</span>
+
+  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;image-wrap&#34;</span>&gt;
+    <span style="color:#75715e">&lt;!-- 为了实现多个动画效果，图片被一个div包裹 --&gt;</span>
+    &lt;<span style="color:#f92672">img</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;image&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;...&#34;</span> /&gt;
+  &lt;/<span style="color:#f92672">div</span>&gt;
+
+  <span style="color:#75715e">&lt;!-- ...其他flex子项 --&gt;</span>
+&lt;/<span style="color:#f92672">div</span>&gt;
+
+<span style="color:#75715e">&lt;!-- vue css scope --&gt;</span>
+&lt;<span style="color:#f92672">style</span>&gt;
+  .<span style="color:#a6e22e">page-container</span> {
+    <span style="color:#66d9ef">width</span>: <span style="color:#ae81ff">750</span><span style="color:#66d9ef">px</span>;
+    <span style="color:#75715e">/* 父元素固定100vh */</span>
+    <span style="color:#66d9ef">height</span>: <span style="color:#ae81ff">100</span><span style="color:#66d9ef">vh</span>;
+    <span style="color:#66d9ef">display</span>: <span style="color:#66d9ef">flex</span>;
+    <span style="color:#66d9ef">flex-direction</span>: <span style="color:#66d9ef">column</span>;
+    <span style="color:#66d9ef">align-items</span>: <span style="color:#66d9ef">center</span>;
+    <span style="color:#66d9ef">justify-content</span>: <span style="color:#66d9ef">flex</span><span style="color:#f92672">-</span><span style="color:#66d9ef">start</span>;
+  }
+
+  .<span style="color:#a6e22e">image-wrap</span> {
+    <span style="color:#75715e">/* 让flex子元素自动伸展、自动压缩，并且设置最大、最小高度 */</span>
+    <span style="color:#66d9ef">flex-grow</span>: <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">flex-shrink</span>: <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">max-height</span>: <span style="color:#ae81ff">688</span><span style="color:#66d9ef">px</span>;
+    <span style="color:#66d9ef">min-height</span>: <span style="color:#ae81ff">613</span><span style="color:#66d9ef">px</span>;
+  }
+  .<span style="color:#a6e22e">image</span> {
+    <span style="color:#75715e">/* 跟随父元素的高度变化 */</span>
+    <span style="color:#66d9ef">height</span>: <span style="color:#ae81ff">100</span><span style="color:#66d9ef">%</span>;
+  }
+&lt;/<span style="color:#f92672">style</span>&gt;
+</code></pre></div><p>在 Chrome 中使用移动设备仿真，各种不同高度下的效果都 OK 了。结果用自己的 iPhone 再看却出了问题：图片没有按照预想的那样自动调整高度，而是保持原始图片的大小不变。</p>
+<p>于是我上网搜索了有关 flex 布局与 min/max 尺寸限制相关的资料，最后的解决方案是：给 <code>.image-wrap</code> 元素加上 <code>flex-basis: 688px</code> 这一行样式。</p>
+<h2 id="关于-flex-basis-auto">关于 flex-basis: auto<a hidden class="anchor" aria-hidden="true" href="#关于-flex-basis-auto">#</a></h2>
+<p>为了彻底弄明白问题出在哪里，有必要进一步了解 <code>flex-basis</code> 属性。以前我只是简单的以为它大概就和 <code>width</code> 属性一样，设置不设置都没关系。研究过后才发现这个属性有着诸多细节。（这里为了简化说明，只探讨 <code>flex-direction: row</code> 的情形）</p>
+<p>在 flex 布局中，一个 flex 子项的最终尺寸是基础尺寸、弹性增长或收缩、最大最小尺寸限制共同作用的结果。其中：</p>
+<ul>
+<li>基础尺寸由 <code>flex-basis</code>、<code>width</code> 等属性以及 <code>box-sizing</code> 盒模型共同决定；</li>
+<li>弹性增长指的是 <code>flex-grow</code> 属性，弹性收缩指的是 <code>flex-shrink</code> 属性；</li>
+<li>最大最小尺寸限制指的是 <code>min-width</code> / <code>max-width</code> 等 CSS 属性，以及 <code>min-content</code> 最小内容尺寸。</li>
+</ul>
+<p>其中优先级为：<strong>最大最小尺寸限制 &gt; 弹性增长或收缩 &gt; 基础尺寸</strong>。</p>
+<p>按照这个理论，在上文的例子中，我已经设置好了 <code>max-height</code>、<code>min-height</code>、<code>flex-grow</code>、<code>flex-shrink</code>，虽然没有设置 <code>flex-basis</code>，也不应该影响结果才对。</p>
+<p>当我没有设置 <code>flex-basis</code> 时，它就是默认值 <code>auto</code>。此时 flex 子项的 <code>flex-basis</code> 根据其自身的尺寸决定，由 <code>box-sizing</code> 盒模型、 <code>width</code> / <code>min-width</code> / <code>max-width</code> 等属性以及 <code>content</code> 内容（min-content 最小宽度）共同决定。看来在 Chrome 和 Safari 下对于<code>flex-basis: auto</code> 的处理有些不一致。</p>
+<p>看来以后在使用弹性布局时，最好是明确给出 <code>flex-basis</code> 的值。</p>
+
+</div>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://ruihusky.github.io/tags/css/">CSS</a></li>
+      <li><a href="https://ruihusky.github.io/tags/flex%E5%B8%83%E5%B1%80/">Flex布局</a></li>
+    </ul>
+  </footer>
+</article>
+    </main><footer class="footer">
+    <span>ruihusky&rsquo;s Blog</span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+
+
+<script defer src="/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js" integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.replaceState(null, null, `#${id}`);
+            }
+        });
+    });
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+</body>
+
+</html>

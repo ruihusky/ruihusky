@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on ruihusky&#39;s Blog</title>
+    <link>https://ruihusky.github.io/tags/</link>
+    <description>Recent content in Tags on ruihusky&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>ruihusky&#39;s Blog</copyright>
+    <lastBuildDate>Tue, 26 Jan 2021 20:00:00 +0800</lastBuildDate><atom:link href="https://ruihusky.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CSS</title>
+      <link>https://ruihusky.github.io/tags/css/</link>
+      <pubDate>Tue, 26 Jan 2021 20:00:00 +0800</pubDate>
+      
+      <guid>https://ruihusky.github.io/tags/css/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Flex布局</title>
+      <link>https://ruihusky.github.io/tags/flex%E5%B8%83%E5%B1%80/</link>
+      <pubDate>Tue, 26 Jan 2021 20:00:00 +0800</pubDate>
+      
+      <guid>https://ruihusky.github.io/tags/flex%E5%B8%83%E5%B1%80/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Unicode</title>
+      <link>https://ruihusky.github.io/tags/unicode/</link>
+      <pubDate>Wed, 16 Dec 2020 20:00:00 +0800</pubDate>
+      
+      <guid>https://ruihusky.github.io/tags/unicode/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>UTF</title>
+      <link>https://ruihusky.github.io/tags/utf/</link>
+      <pubDate>Wed, 16 Dec 2020 20:00:00 +0800</pubDate>
+      
+      <guid>https://ruihusky.github.io/tags/utf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编码</title>
+      <link>https://ruihusky.github.io/tags/%E7%BC%96%E7%A0%81/</link>
+      <pubDate>Wed, 16 Dec 2020 20:00:00 +0800</pubDate>
+      
+      <guid>https://ruihusky.github.io/tags/%E7%BC%96%E7%A0%81/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>WSL</title>
+      <link>https://ruihusky.github.io/tags/wsl/</link>
+      <pubDate>Fri, 11 Dec 2020 20:00:00 +0800</pubDate>
+      
+      <guid>https://ruihusky.github.io/tags/wsl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>脚本</title>
+      <link>https://ruihusky.github.io/tags/%E8%84%9A%E6%9C%AC/</link>
+      <pubDate>Fri, 11 Dec 2020 20:00:00 +0800</pubDate>
+      
+      <guid>https://ruihusky.github.io/tags/%E8%84%9A%E6%9C%AC/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>JavaScript</title>
+      <link>https://ruihusky.github.io/tags/javascript/</link>
+      <pubDate>Fri, 27 Nov 2020 20:00:00 +0800</pubDate>
+      
+      <guid>https://ruihusky.github.io/tags/javascript/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

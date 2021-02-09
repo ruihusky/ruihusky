@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>理论基础 on ruihusky&#39;s Blog</title>
+    <link>https://ruihusky.github.io/categories/%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/</link>
+    <description>Recent content in 理论基础 on ruihusky&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>ruihusky&#39;s Blog</copyright>
+    <lastBuildDate>Wed, 16 Dec 2020 20:00:00 +0800</lastBuildDate><atom:link href="https://ruihusky.github.io/categories/%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Unicode 编码与 UTF-32、UTF-16、UTF-8</title>
+      <link>https://ruihusky.github.io/posts/2020-12-16_unicode-utf/</link>
+      <pubDate>Wed, 16 Dec 2020 20:00:00 +0800</pubDate>
+      
+      <guid>https://ruihusky.github.io/posts/2020-12-16_unicode-utf/</guid>
+      <description>字符编码与 Unicode 编码 字符，又或者说文本在计算机中是以字符编码的方式存储的。计算机以二进制处理信息，每一位只有 1 和 0 两种状态，每个字节就可以组合出2^8=256种状态（1 字节=8 位）。以 ASCII 为例，它用 7 位的二进制来表示字母、数字和其它符号编号，共计 128 个字符，通常会额外使用一个扩充的位，以便于以 1 个字节的方式存储。
+Unicode 是一个庞大的字符编码集合，是一种用于展示世界上所有语言的字符的编码标准。在 20 世纪 80 年代开始启动设计工作时，人们认为两个字节的代码宽度足以对世界上各种语言的所有字符进行编码，并有足够的空间留给未来的扩展，理论上一共最多可以表示 2^16（即 65536）个字符。这 16 位统一码字符构成了基本多文种平面，其编码范围为 U+0000 ~ U+FFFF。
+经过一段时间，Unicode 字符超过了 65536 个，基本多文种平面无法满足描述所有 Unicode 字符的需要了。为了扩展需求，Unicode 在原来的基础上新增了 16 个辅助平面，每个平面的编码范围为：
+ 辅助平面 1：U+10000 ~ U+1FFFF 辅助平面 2：U+20000 ~ U+2FFFF &amp;hellip; 辅助平面 15：U+F0000 ~ U+FFFFF 辅助平面 16：U+100000 ~ U+10FFFF  所有辅助平面的编码范围为 U+10000 ~ U+10FFFF，共计 16 个辅助平面，每个辅助平面最多可存储 2^16（即 65536）个字符，也可以说每个辅助平面都有 65536 个码位。
+到这里为止，还只是 Unicode 的编码方式，下文简要说明其几种实现方式。</description>
+    </item>
+    
+    <item>
+      <title>Promise实现原理（Promise/A&#43;规范）</title>
+      <link>https://ruihusky.github.io/posts/2020-11-27_promise-aplus/</link>
+      <pubDate>Fri, 27 Nov 2020 20:00:00 +0800</pubDate>
+      
+      <guid>https://ruihusky.github.io/posts/2020-11-27_promise-aplus/</guid>
+      <description>前言 Promise 对象用于表示一个异步操作的最终完成（或失败），及其结果值。它最早由社区提出和实现，其中有多种 Promise 规范。ES6 按照 Promise/A+ 规范将其写进了语言标准。 关于该规范的详情可参考：Promise/A+规范 中文翻译。
+基础实现 我们先尝试实现最简单的 Promise 功能：通过 Promise 包装异步请求，并使用then方法注册回调函数，通过resolve方法通知 Promise 异步请求已解决，并执行回调函数。 模拟一个基础的异步 http 请求，并使用 Promise 封装：
+// 模拟http请求 const mockAjax = (url, s, callback) =&amp;gt; { console.log(&amp;#34;[mockAjax] start&amp;#34;); setTimeout(() =&amp;gt; { console.log(&amp;#34;[mockAjax] callback&amp;#34;); callback(&amp;#34;异步结果：&amp;#34; + url + &amp;#34;异步请求耗时&amp;#34; + s + &amp;#34;秒&amp;#34;); }, 1000 * s); }; // Promise基础功能 new Promise((resolve) =&amp;gt; { mockAjax(&amp;#34;getUserId&amp;#34;, 1, function (result) { resolve(result); }); }) .then((result) =&amp;gt; { console.</description>
+    </item>
+    
+    <item>
+      <title>JavaScript异步编程：Generator函数与Async函数</title>
+      <link>https://ruihusky.github.io/posts/2020-11-18_js-async-function/</link>
+      <pubDate>Wed, 18 Nov 2020 20:00:00 +0800</pubDate>
+      
+      <guid>https://ruihusky.github.io/posts/2020-11-18_js-async-function/</guid>
+      <description>Generator 函数基本概念 关于协程 首先我们要讨论的是 Generator 函数和普通函数在运行方式上有什么区别。
+运行-完成 对于一个普通函数而言，一旦函数开始运行，除非运行完毕，否则其余的 JS 代码无法运行。这句话应该如何理解？看一个例子：
+setTimeout(function () { console.log(&amp;#34;Hello World&amp;#34;); }, 1); function foo() { // 提示: 最好不要尝试这样的迭代  for (var i = 0; i &amp;lt;= 1e10; i++) { console.log(i); } } foo(); // 0..1E10 // &amp;#34;Hello World&amp;#34; 在这个例子中，foo() 函数的运行时间超过了 1ms，但是 Hello World 出现在了最后面。所以，在 foo() 函数运行过程中，上面的 setTimeout() 函数不会被运行，直到 foo() 函数运行结束。
+运行-停止-运行 Generator 函数允许在运行的过程中暂停一次或多次，随后再恢复运行。暂停的过程中允许其它的代码执行。
+这里引申到 协程（coroutine） 的概念。可以这么理解：一个进程（这里可以将它理解为一个 function）本身可以选择何时被中断以便与其它代码进行协作。
+在 ES6 中，Generator 函数使用协程来进行并发操作。在 Generator 函数体内，通过使用新的 yield 关键字从内部将函数的运行打断。除了 Generator 函数内部的 yield 关键字，你不可能从任何地方（包括函数外部）中断函数的运行。</description>
+    </item>
+    
+    <item>
+      <title>JavaScript异步编程：回调函数与Promise</title>
+      <link>https://ruihusky.github.io/posts/2020-11-16_js-promise/</link>
+      <pubDate>Mon, 16 Nov 2020 20:00:00 +0800</pubDate>
+      
+      <guid>https://ruihusky.github.io/posts/2020-11-16_js-promise/</guid>
+      <description>JavaScript 异步编程背景 JavaScript 是一门单线程语言。所谓单线程，就是同一时刻只能进行一个任务，所有任务排着队按照先后顺序进行。若某个任务耗时很长，进程就会出现卡死的状态。例如使用同步方式加载某个页面，有一个资源需要加载很长时间，那这段时间用户无法对页面做任何操作。因此对于 JavaScript 来说，异步编程异常重要。
+Javascript 异步编程方法 按照时间先后顺序，Javascript 的异步编程方案有这些：
+ES6 以前：回调函数、Promise 对象 ES6：Generator 函数 ES7：async 函数
+回调函数 举一个通俗易懂的例子来说明什么是回调函数：
+某个顾客到书店买书，但是书店缺货，于是他向店员留下了电话号码。过了几天后，书店进了货，店员打了这个电话通知顾客货到了。于是顾客来到书店取了货。
+在这个例子中，“顾客买书”可以看作一个任务。但是这个任务不能在最开始执行，必须在“书店有货”这个条件成立时才能执行。于是顾客在书店留下电话号码，也就是向店员登记回调函数。对于书店来说，他在“书店到货”这个事件发生时，就可以通过电话号码“调用”“顾客买书”的任务，这里是调用回调函数。顾客去书店买了书，这里是“响应回调事件”。
+那么，回调函数和异步有什么关系呢？在上面的例子中，顾客告知店员电话号码之后，就可以离开书店做其他事情，不必一直在书店等到书到货。这里就是异步思想的体现。
+在 JS 中，最简单的例子就是定时任务 - setTimeout()
+function test() { setTimeout(function () { console.log(&amp;#34;from setTimeout&amp;#34;); }, 500); console.log(&amp;#34;from test&amp;#34;); } test(); // 结果： // from test // from setTimeout 可以看到，在 test() 中，setTimeout() 之后的代码立刻执行了，没有等待 500ms 之后再执行。
+现在假设这样一个业务场景：需要有序读取多个文件并输出。这是嵌套回调的常见模式，看下面的例子：
+// 嵌套回调，读一个文件后输出，再读另一个文件。读取第二个文件的代码需要写在第一个回调函数之中 var fs = require(&amp;#34;fs&amp;#34;); fs.readFile(&amp;#34;./text1.txt&amp;#34;, &amp;#34;utf8&amp;#34;, function (err, data) { console.log(&amp;#34;text1 file content: &amp;#34; + data); fs.</description>
+    </item>
+    
+    <item>
+      <title>JavaScript原型与继承</title>
+      <link>https://ruihusky.github.io/posts/2020-11-12_js-prototype/</link>
+      <pubDate>Thu, 12 Nov 2020 20:00:00 +0800</pubDate>
+      
+      <guid>https://ruihusky.github.io/posts/2020-11-12_js-prototype/</guid>
+      <description>理解原型对象 在 JavaScript 中，创建的每个函数都有一个 prototype （原型）属性，这个属性是一个指针，指向原型对象。通过调用构造函数创建的所有对象实例都可以访问该原型对象。举例来说：
+function Person() {} Person.prototype.name = &amp;#34;Nicholas&amp;#34;; Person.prototype.age = 29; Person.prototype.job = &amp;#34;Software Engineer&amp;#34;; Person.prototype.sayName = function () { alert(this.name); }; var person1 = new Person(); person1.sayName(); // &amp;#34;Nicholas&amp;#34; var person2 = new Person(); person2.sayName(); // &amp;#34;Nicholas&amp;#34; alert(person1.sayName == person2.sayName); // true 原型搜索机制 访问实例对象的属性时，会先从实例对象的属性找起，找不到再去原型对象中寻找。为实例对象添加属性会屏蔽对原型对象中同名属性的访问。要恢复对原型对象属性的访问，使用 delete 删除实例对象属性即可。下面是例子：
+function Person() {} Person.prototype.name = &amp;#34;Nicholas&amp;#34;; Person.prototype.age = 29; Person.prototype.job = &amp;#34;Software Engineer&amp;#34;; Person.prototype.sayName = function () { alert(this.name); }; var person1 = new Person(); var person2 = new Person(); person1.</description>
+    </item>
+    
+  </channel>
+</rss>
