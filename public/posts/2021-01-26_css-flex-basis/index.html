@@ -10,7 +10,7 @@
 <meta name="keywords" content="CSS, Flex布局" />
 <meta name="description" content="flex 布局中的问题 最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：
 页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局促了。
-我一想，使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：
+这个问题看起来不难。使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：
 &lt;div class=&#34;page-container&#34;&gt; &lt;!-- ...其他flex子项 --&gt; &lt;div class=&#34;image-wrap&#34;&gt; &lt;!-- 为了实现多个动画效果，图片被一个div包裹 --&gt; &lt;img class=&#34;image&#34; src=&#34;...&#34; /&gt; &lt;/div&gt; &lt;!-- ...其他flex子项 --&gt; &lt;/div&gt; &lt;!-- vue css scope --&gt; &lt;style&gt; .page-container { width: 750px; /* 父元素固定100vh */ height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; } .image-wrap { /* 让flex子元素自动伸展、自动压缩，并且设置最大、最小高度 */ flex-grow: 1; flex-shrink: 1; max-height: 688px; min-height: 613px; } .">
 <meta name="author" content="ruihusky">
 <link rel="canonical" href="https://ruihusky.github.io/ruihusky/posts/2021-01-26_css-flex-basis/" />
@@ -30,7 +30,7 @@
 <meta property="og:title" content="CSS flex-basis: auto 与弹性布局" />
 <meta property="og:description" content="flex 布局中的问题 最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：
 页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局促了。
-我一想，使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：
+这个问题看起来不难。使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：
 &lt;div class=&#34;page-container&#34;&gt; &lt;!-- ...其他flex子项 --&gt; &lt;div class=&#34;image-wrap&#34;&gt; &lt;!-- 为了实现多个动画效果，图片被一个div包裹 --&gt; &lt;img class=&#34;image&#34; src=&#34;...&#34; /&gt; &lt;/div&gt; &lt;!-- ...其他flex子项 --&gt; &lt;/div&gt; &lt;!-- vue css scope --&gt; &lt;style&gt; .page-container { width: 750px; /* 父元素固定100vh */ height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; } .image-wrap { /* 让flex子元素自动伸展、自动压缩，并且设置最大、最小高度 */ flex-grow: 1; flex-shrink: 1; max-height: 688px; min-height: 613px; } ." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ruihusky.github.io/ruihusky/posts/2021-01-26_css-flex-basis/" />
@@ -40,7 +40,7 @@
 <meta name="twitter:title" content="CSS flex-basis: auto 与弹性布局"/>
 <meta name="twitter:description" content="flex 布局中的问题 最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：
 页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局促了。
-我一想，使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：
+这个问题看起来不难。使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：
 &lt;div class=&#34;page-container&#34;&gt; &lt;!-- ...其他flex子项 --&gt; &lt;div class=&#34;image-wrap&#34;&gt; &lt;!-- 为了实现多个动画效果，图片被一个div包裹 --&gt; &lt;img class=&#34;image&#34; src=&#34;...&#34; /&gt; &lt;/div&gt; &lt;!-- ...其他flex子项 --&gt; &lt;/div&gt; &lt;!-- vue css scope --&gt; &lt;style&gt; .page-container { width: 750px; /* 父元素固定100vh */ height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; } .image-wrap { /* 让flex子元素自动伸展、自动压缩，并且设置最大、最小高度 */ flex-grow: 1; flex-shrink: 1; max-height: 688px; min-height: 613px; } ."/>
 
 <script type="application/ld+json">
@@ -53,8 +53,8 @@
   "keywords": [
     "CSS", "Flex布局"
   ],
-  "articleBody": "flex 布局中的问题 最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：\n页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局促了。\n我一想，使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：\ndiv class=\"page-container\"  div class=\"image-wrap\"  img class=\"image\" src=\"...\" / div  div  style .page-container { width: 750px; /* 父元素固定100vh */ height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; } .image-wrap { /* 让flex子元素自动伸展、自动压缩，并且设置最大、最小高度 */ flex-grow: 1; flex-shrink: 1; max-height: 688px; min-height: 613px; } .image { /* 跟随父元素的高度变化 */ height: 100%; } style 在 Chrome 中使用移动设备仿真，各种不同高度下的效果都 OK 了。结果用自己的 iPhone 再看却出了问题：图片没有按照预想的那样自动调整高度，而是保持原始图片的大小不变。\n于是我上网搜索了有关 flex 布局与 min/max 尺寸限制相关的资料，最后的解决方案是：给 .image-wrap 元素加上 flex-basis: 688px 这一行样式。\n关于 flex-basis: auto 为了彻底弄明白问题出在哪里，有必要进一步了解 flex-basis 属性。以前我只是简单的以为它大概就和 width 属性一样，设置不设置都没关系。研究过后才发现这个属性有着诸多细节。（这里为了简化说明，只探讨 flex-direction: row 的情形）\n在 flex 布局中，一个 flex 子项的最终尺寸是基础尺寸、弹性增长或收缩、最大最小尺寸限制共同作用的结果。其中：\n 基础尺寸由 flex-basis、width 等属性以及 box-sizing 盒模型共同决定； 弹性增长指的是 flex-grow 属性，弹性收缩指的是 flex-shrink 属性； 最大最小尺寸限制指的是 min-width / max-width 等 CSS 属性，以及 min-content 最小内容尺寸。  其中优先级为：最大最小尺寸限制  弹性增长或收缩  基础尺寸。\n按照这个理论，在上文的例子中，我已经设置好了 max-height、min-height、flex-grow、flex-shrink，虽然没有设置 flex-basis，也不应该影响结果才对。\n当我没有设置 flex-basis 时，它就是默认值 auto。此时 flex 子项的 flex-basis 根据其自身的尺寸决定，由 box-sizing 盒模型、 width / min-width / max-width 等属性以及 content 内容（min-content 最小宽度）共同决定。看来在 Chrome 和 Safari 下对于flex-basis: auto 的处理有些不一致。\n看来以后在使用弹性布局时，最好是明确给出 flex-basis 的值。\n",
-  "wordCount" : "167",
+  "articleBody": "flex 布局中的问题 最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：\n页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局促了。\n这个问题看起来不难。使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：\ndiv class=\"page-container\"  div class=\"image-wrap\"  img class=\"image\" src=\"...\" / div  div  style .page-container { width: 750px; /* 父元素固定100vh */ height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; } .image-wrap { /* 让flex子元素自动伸展、自动压缩，并且设置最大、最小高度 */ flex-grow: 1; flex-shrink: 1; max-height: 688px; min-height: 613px; } .image { /* 跟随父元素的高度变化 */ height: 100%; } style 在 Chrome 中使用移动设备仿真，各种不同高度下的效果都 OK 了。结果用自己的 iPhone 再看却出了问题：图片没有按照预想的那样自动调整高度，而是保持着原始图片的大小。\n于是我开始搜索有关 flex 布局与 min/max 样式之间如何相互作用的资料。这里先给出最后的解决方案：给 .image-wrap 元素加上 flex-basis: 688px 样式。\nflex-basis 默认值：auto 为了彻底弄明白问题出在哪里，有必要进一步了解 flex-basis 属性。以前我只是简单的以为它大概就和 width 属性一样，设置不设置都没关系。研究过后才发现这个属性有着诸多细节。（这里为了简化说明，只探讨 flex-direction: row 的情形）\n在 flex 布局中，一个 flex 子项的最终尺寸是基础尺寸、弹性增长或收缩、最大最小尺寸限制共同作用的结果。其中：\n 基础尺寸由 flex-basis 与 box-sizing 盒模型共同决定； 弹性增长指的是 flex-grow 属性，弹性收缩指的是 flex-shrink 属性。这里不做过多阐述，详情可参考：flex-grow，flex-shrink； 最大最小尺寸限制指的是 min-width / max-width 等 CSS 属性。  其中优先级为：最大最小尺寸限制  弹性增长或收缩  基础尺寸。\n按照这个理论，在上文的例子中，我已经设置好了 max-height、min-height、flex-grow、flex-shrink，虽然没有设置 flex-basis，也不应该影响结果才对。\n我在查看了更多资料之后，发现 flex-basis 还有许多细节：\n 在 flex 布局中，flex-basis 就同非 flex 布局中 width 属性表现一样； 若同时设置了确定数值的 flex-basis 与 width，则 width 属性会被忽略； 当 flex-basis 值为 auto 时（默认值），子项的基本尺寸根据其自身的尺寸决定。更具体一点地说，由 box-sizing、width、min-width、max-width以及元素内容共同决定。  再来看上文的例子，我没有设置 flex-basis ，所以它是默认值 auto，flex 子项的 flex-basis 根据其自身的尺寸决定。对于 .image-wrap 元素，根据我所设置的 CSS 样式：\n.image-wrap { flex-grow: 1; flex-shrink: 1; max-height: 688px; min-height: 613px; } 它的高度应该是由 box-sizing 盒模型、min-height、max-height 属性共同决定（注意这里我没有设置 height）。看来在这种情况下，Chrome 和 Safari 下对于最终效果的处理有些不一致。\n在使用弹性布局时，最好是明确给出 flex-basis 的值。\n参考资料 Oh My God，CSS flex-basis 原来有这么多细节\n",
+  "wordCount" : "198",
   "inLanguage": "zh",
   "datePublished": "2021-01-26T20:00:00+08:00",
   "dateModified": "2021-01-26T20:00:00+08:00",
@@ -180,7 +180,8 @@ January 26, 2021&nbsp;·&nbsp;ruihusky
       </summary>
       <div class="inner"><ul><li>
         <a href="#flex-%e5%b8%83%e5%b1%80%e4%b8%ad%e7%9a%84%e9%97%ae%e9%a2%98" aria-label="flex 布局中的问题">flex 布局中的问题</a></li><li>
-        <a href="#%e5%85%b3%e4%ba%8e-flex-basis-auto" aria-label="关于 flex-basis: auto">关于 flex-basis: auto</a></li></ul>
+        <a href="#flex-basis-%e9%bb%98%e8%ae%a4%e5%80%bcauto" aria-label="flex-basis 默认值：auto">flex-basis 默认值：auto</a></li><li>
+        <a href="#%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99" aria-label="参考资料">参考资料</a></li></ul>
       </div>
     </details>
   </div>
@@ -188,7 +189,7 @@ January 26, 2021&nbsp;·&nbsp;ruihusky
 <h2 id="flex-布局中的问题">flex 布局中的问题<a hidden class="anchor" aria-hidden="true" href="#flex-布局中的问题">#</a></h2>
 <p>最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：</p>
 <p>页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局促了。</p>
-<p>我一想，使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：</p>
+<p>这个问题看起来不难。使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;page-container&#34;</span>&gt;
   <span style="color:#75715e">&lt;!-- ...其他flex子项 --&gt;</span>
 
@@ -224,20 +225,35 @@ January 26, 2021&nbsp;·&nbsp;ruihusky
     <span style="color:#66d9ef">height</span>: <span style="color:#ae81ff">100</span><span style="color:#66d9ef">%</span>;
   }
 &lt;/<span style="color:#f92672">style</span>&gt;
-</code></pre></div><p>在 Chrome 中使用移动设备仿真，各种不同高度下的效果都 OK 了。结果用自己的 iPhone 再看却出了问题：图片没有按照预想的那样自动调整高度，而是保持原始图片的大小不变。</p>
-<p>于是我上网搜索了有关 flex 布局与 min/max 尺寸限制相关的资料，最后的解决方案是：给 <code>.image-wrap</code> 元素加上 <code>flex-basis: 688px</code> 这一行样式。</p>
-<h2 id="关于-flex-basis-auto">关于 flex-basis: auto<a hidden class="anchor" aria-hidden="true" href="#关于-flex-basis-auto">#</a></h2>
+</code></pre></div><p>在 Chrome 中使用移动设备仿真，各种不同高度下的效果都 OK 了。结果用自己的 iPhone 再看却出了问题：图片没有按照预想的那样自动调整高度，而是保持着原始图片的大小。</p>
+<p>于是我开始搜索有关 flex 布局与 min/max 样式之间如何相互作用的资料。这里先给出最后的解决方案：给 <code>.image-wrap</code> 元素加上 <code>flex-basis: 688px</code> 样式。</p>
+<h2 id="flex-basis-默认值auto">flex-basis 默认值：auto<a hidden class="anchor" aria-hidden="true" href="#flex-basis-默认值auto">#</a></h2>
 <p>为了彻底弄明白问题出在哪里，有必要进一步了解 <code>flex-basis</code> 属性。以前我只是简单的以为它大概就和 <code>width</code> 属性一样，设置不设置都没关系。研究过后才发现这个属性有着诸多细节。（这里为了简化说明，只探讨 <code>flex-direction: row</code> 的情形）</p>
 <p>在 flex 布局中，一个 flex 子项的最终尺寸是基础尺寸、弹性增长或收缩、最大最小尺寸限制共同作用的结果。其中：</p>
 <ul>
-<li>基础尺寸由 <code>flex-basis</code>、<code>width</code> 等属性以及 <code>box-sizing</code> 盒模型共同决定；</li>
-<li>弹性增长指的是 <code>flex-grow</code> 属性，弹性收缩指的是 <code>flex-shrink</code> 属性；</li>
-<li>最大最小尺寸限制指的是 <code>min-width</code> / <code>max-width</code> 等 CSS 属性，以及 <code>min-content</code> 最小内容尺寸。</li>
+<li>基础尺寸由 <code>flex-basis</code> 与 <code>box-sizing</code> 盒模型共同决定；</li>
+<li>弹性增长指的是 <code>flex-grow</code> 属性，弹性收缩指的是 <code>flex-shrink</code> 属性。这里不做过多阐述，详情可参考：<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex-grow">flex-grow</a>，<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex-shrink">flex-shrink</a>；</li>
+<li>最大最小尺寸限制指的是 <code>min-width</code> / <code>max-width</code> 等 CSS 属性。</li>
 </ul>
 <p>其中优先级为：<strong>最大最小尺寸限制 &gt; 弹性增长或收缩 &gt; 基础尺寸</strong>。</p>
 <p>按照这个理论，在上文的例子中，我已经设置好了 <code>max-height</code>、<code>min-height</code>、<code>flex-grow</code>、<code>flex-shrink</code>，虽然没有设置 <code>flex-basis</code>，也不应该影响结果才对。</p>
-<p>当我没有设置 <code>flex-basis</code> 时，它就是默认值 <code>auto</code>。此时 flex 子项的 <code>flex-basis</code> 根据其自身的尺寸决定，由 <code>box-sizing</code> 盒模型、 <code>width</code> / <code>min-width</code> / <code>max-width</code> 等属性以及 <code>content</code> 内容（min-content 最小宽度）共同决定。看来在 Chrome 和 Safari 下对于<code>flex-basis: auto</code> 的处理有些不一致。</p>
-<p>看来以后在使用弹性布局时，最好是明确给出 <code>flex-basis</code> 的值。</p>
+<p>我在查看了更多资料之后，发现 <code>flex-basis</code> 还有许多细节：</p>
+<ul>
+<li>在 flex 布局中，<code>flex-basis</code> 就同非 flex 布局中 <code>width</code> 属性表现一样；</li>
+<li>若同时设置了确定数值的 <code>flex-basis</code> 与 <code>width</code>，则 <code>width</code> 属性会被忽略；</li>
+<li>当 <code>flex-basis</code> 值为 <code>auto</code> 时（默认值），子项的基本尺寸根据其自身的尺寸决定。更具体一点地说，由 <code>box-sizing</code>、<code>width</code>、<code>min-width</code>、<code>max-width</code>以及元素内容共同决定。</li>
+</ul>
+<p>再来看上文的例子，我没有设置 <code>flex-basis</code> ，所以它是默认值 <code>auto</code>，flex 子项的 <code>flex-basis</code> 根据其自身的尺寸决定。对于 <code>.image-wrap</code> 元素，根据我所设置的 CSS 样式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css">.<span style="color:#a6e22e">image-wrap</span> {
+  <span style="color:#66d9ef">flex-grow</span>: <span style="color:#ae81ff">1</span>;
+  <span style="color:#66d9ef">flex-shrink</span>: <span style="color:#ae81ff">1</span>;
+  <span style="color:#66d9ef">max-height</span>: <span style="color:#ae81ff">688</span><span style="color:#66d9ef">px</span>;
+  <span style="color:#66d9ef">min-height</span>: <span style="color:#ae81ff">613</span><span style="color:#66d9ef">px</span>;
+}
+</code></pre></div><p>它的高度应该是由 <code>box-sizing</code> 盒模型、<code>min-height</code>、<code>max-height</code> 属性共同决定（注意这里我没有设置 <code>height</code>）。看来在这种情况下，Chrome 和 Safari 下对于最终效果的处理有些不一致。</p>
+<p>在使用弹性布局时，最好是明确给出 <code>flex-basis</code> 的值。</p>
+<h2 id="参考资料">参考资料<a hidden class="anchor" aria-hidden="true" href="#参考资料">#</a></h2>
+<p><a href="https://www.zhangxinxu.com/wordpress/2019/12/css-flex-basis/">Oh My God，CSS flex-basis 原来有这么多细节</a></p>
 
 </div>
   <footer class="post-footer">
