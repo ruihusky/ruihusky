@@ -29,7 +29,7 @@
 <meta property="og:description" content="ruihusky&#39;s Blog - https://ruihusky.github.io/ruihusky/" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://ruihusky.github.io/ruihusky/posts/" />
-<meta property="og:updated_time" content="2021-01-26T20:00:00+08:00" />
+<meta property="og:updated_time" content="2021-02-20T20:00:00+08:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Posts"/>
 <meta name="twitter:description" content="ruihusky&#39;s Blog - https://ruihusky.github.io/ruihusky/"/>
@@ -123,6 +123,27 @@
 
 
 
+<article class="post-entry"> 
+
+  <header class="entry-header">
+    <h2>
+      JavaScript异步编程：Generator函数与Async函数
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Generator 函数基本概念 关于协程 首先我们要讨论的是 Generator 函数和普通函数在运行方式上有什么区别。
+运行-完成 对于一个普通函数而言，一旦函数开始运行，除非运行完毕，否则其余的 JS 代码无法运行。这句话应该如何理解？看一个例子：
+setTimeout(function () { console.log(&#34;Hello World&#34;); }, 1); function foo() { // 提示: 最好不要尝试这样的迭代  for (var i = 0; i &lt;= 1e10; i&#43;&#43;) { console.log(i); } } foo(); // 0..1E10 // &#34;Hello World&#34; 在这个例子中，foo() 函数的运行时间超过了 1ms，但是 Hello World 出现在了最后面。所以，在 foo() 函数运行过程中，上面的 setTimeout() 函数不会被运行，直到 foo() 函数运行结束。
+运行-停止-运行 Generator 函数允许在运行的过程中暂停一次或多次，随后再恢复运行。暂停的过程中允许其它的代码执行。
+这里引申到 协程（coroutine） 的概念。可以这么理解：一个进程（这里可以将它理解为一个 function）本身可以选择何时被中断以便与其它代码进行协作。
+在 ES6 中，Generator 函数使用协程来进行并发操作。在 Generator 函数体内，通过使用新的 yield 关键字从内部将函数的运行打断。除了 Generator 函数内部的 yield 关键字，你不可能从任何地方（包括函数外部）中断函数的运行。...</p>
+  </section>
+  <footer class="entry-footer">
+
+November 18, 2020&nbsp;·&nbsp;ruihusky
+</footer>
+  <a class="entry-link" aria-label="post link to JavaScript异步编程：Generator函数与Async函数" href="https://ruihusky.github.io/ruihusky/posts/2020-11-18_js-async-function/"></a>
+</article>
 <article class="post-entry"> 
 
   <header class="entry-header">
