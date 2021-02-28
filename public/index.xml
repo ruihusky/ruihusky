@@ -75,47 +75,16 @@ $ cat /etc/resolv.conf | grep -oP &amp;#39;(?&amp;lt;=nameserver\ ).*&amp;#39; 1
     </item>
     
     <item>
-      <title>JavaScript异步编程：Generator函数与Async函数</title>
-      <link>https://ruihusky.github.io/ruihusky/posts/2020-11-18_js-async-function/</link>
-      <pubDate>Wed, 18 Nov 2020 20:00:00 +0800</pubDate>
-      
-      <guid>https://ruihusky.github.io/ruihusky/posts/2020-11-18_js-async-function/</guid>
-      <description>Generator 函数基本概念 关于协程 首先我们要讨论的是 Generator 函数和普通函数在运行方式上有什么区别。
-运行-完成 对于一个普通函数而言，一旦函数开始运行，除非运行完毕，否则其余的 JS 代码无法运行。这句话应该如何理解？看一个例子：
-setTimeout(function () { console.log(&amp;#34;Hello World&amp;#34;); }, 1); function foo() { // 提示: 最好不要尝试这样的迭代  for (var i = 0; i &amp;lt;= 1e10; i++) { console.log(i); } } foo(); // 0..1E10 // &amp;#34;Hello World&amp;#34; 在这个例子中，foo() 函数的运行时间超过了 1ms，但是 Hello World 出现在了最后面。所以，在 foo() 函数运行过程中，上面的 setTimeout() 函数不会被运行，直到 foo() 函数运行结束。
-运行-停止-运行 Generator 函数允许在运行的过程中暂停一次或多次，随后再恢复运行。暂停的过程中允许其它的代码执行。
-这里引申到 协程（coroutine） 的概念。可以这么理解：一个进程（这里可以将它理解为一个 function）本身可以选择何时被中断以便与其它代码进行协作。
-在 ES6 中，Generator 函数使用协程来进行并发操作。在 Generator 函数体内，通过使用新的 yield 关键字从内部将函数的运行打断。除了 Generator 函数内部的 yield 关键字，你不可能从任何地方（包括函数外部）中断函数的运行。</description>
-    </item>
-    
-    <item>
-      <title>JavaScript异步编程：回调函数与Promise</title>
-      <link>https://ruihusky.github.io/ruihusky/posts/2020-11-16_js-promise/</link>
-      <pubDate>Mon, 16 Nov 2020 20:00:00 +0800</pubDate>
-      
-      <guid>https://ruihusky.github.io/ruihusky/posts/2020-11-16_js-promise/</guid>
-      <description>JavaScript 异步编程背景 JavaScript 是一门单线程语言。所谓单线程，就是同一时刻只能进行一个任务，所有任务排着队按照先后顺序进行。若某个任务耗时很长，进程就会出现卡死的状态。例如使用同步方式加载某个页面，有一个资源需要加载很长时间，那这段时间用户无法对页面做任何操作。因此对于 JavaScript 来说，异步编程异常重要。
-Javascript 异步编程方法 按照时间先后顺序，Javascript 的异步编程方案有这些：
-ES6 以前：回调函数、Promise 对象 ES6：Generator 函数 ES7：async 函数
-回调函数 举一个通俗易懂的例子来说明什么是回调函数：
-某个顾客到书店买书，但是书店缺货，于是他向店员留下了电话号码。过了几天后，书店进了货，店员打了这个电话通知顾客货到了。于是顾客来到书店取了货。
-在这个例子中，“顾客买书”可以看作一个任务。但是这个任务不能在最开始执行，必须在“书店有货”这个条件成立时才能执行。于是顾客在书店留下电话号码，也就是向店员登记回调函数。对于书店来说，他在“书店到货”这个事件发生时，就可以通过电话号码“调用”“顾客买书”的任务，这里是调用回调函数。顾客去书店买了书，这里是“响应回调事件”。
-那么，回调函数和异步有什么关系呢？在上面的例子中，顾客告知店员电话号码之后，就可以离开书店做其他事情，不必一直在书店等到书到货。这里就是异步思想的体现。
-在 JS 中，最简单的例子就是定时任务 - setTimeout()
-function test() { setTimeout(function () { console.log(&amp;#34;from setTimeout&amp;#34;); }, 500); console.log(&amp;#34;from test&amp;#34;); } test(); // 结果： // from test // from setTimeout 可以看到，在 test() 中，setTimeout() 之后的代码立刻执行了，没有等待 500ms 之后再执行。
-现在假设这样一个业务场景：需要有序读取多个文件并输出。这是嵌套回调的常见模式，看下面的例子：
-// 嵌套回调，读一个文件后输出，再读另一个文件。读取第二个文件的代码需要写在第一个回调函数之中 var fs = require(&amp;#34;fs&amp;#34;); fs.readFile(&amp;#34;./text1.txt&amp;#34;, &amp;#34;utf8&amp;#34;, function (err, data) { console.log(&amp;#34;text1 file content: &amp;#34; + data); fs.</description>
-    </item>
-    
-    <item>
       <title>JavaScript原型与继承</title>
       <link>https://ruihusky.github.io/ruihusky/posts/2020-11-12_js-prototype/</link>
       <pubDate>Thu, 12 Nov 2020 20:00:00 +0800</pubDate>
       
       <guid>https://ruihusky.github.io/ruihusky/posts/2020-11-12_js-prototype/</guid>
-      <description>理解原型对象 在 JavaScript 中，创建的每个函数都有一个 prototype （原型）属性，这个属性是一个指针，指向原型对象。通过调用构造函数创建的所有对象实例都可以访问该原型对象。举例来说：
-function Person() {} Person.prototype.name = &amp;#34;Nicholas&amp;#34;; Person.prototype.age = 29; Person.prototype.job = &amp;#34;Software Engineer&amp;#34;; Person.prototype.sayName = function () { alert(this.name); }; var person1 = new Person(); person1.sayName(); // &amp;#34;Nicholas&amp;#34; var person2 = new Person(); person2.sayName(); // &amp;#34;Nicholas&amp;#34; alert(person1.sayName == person2.sayName); // true 原型搜索机制 访问实例对象的属性时，会先从实例对象的属性找起，找不到再去原型对象中寻找。为实例对象添加属性会屏蔽对原型对象中同名属性的访问。要恢复对原型对象属性的访问，使用 delete 删除实例对象属性即可。下面是例子：
-function Person() {} Person.prototype.name = &amp;#34;Nicholas&amp;#34;; Person.prototype.age = 29; Person.prototype.job = &amp;#34;Software Engineer&amp;#34;; Person.prototype.sayName = function () { alert(this.name); }; var person1 = new Person(); var person2 = new Person(); person1.</description>
+      <description>构造函数模式与原型 在 ES5 中，我们可以自定义构造函数用于创建特定的类型对象，例如：
+// 定义构造函数 function Person(name, age, job) { this.name = name; this.age = age; this.job = job; this.sayName = function () { console.log(this.name); }; } // 以 new 操作符调用构造函数 let person1 = new Person(&amp;#34;Nicholas&amp;#34;, 29, &amp;#34;Software Engineer&amp;#34;); let person2 = new Person(&amp;#34;Greg&amp;#34;, 27, &amp;#34;Doctor&amp;#34;); person1.sayName(); // Nicholas person2.sayName(); // Greg 其实这里的“构造函数”说法只是一种概念上的区分，它与普通的 JavaScript 函数没什么区别。通常会约定构造函数以大写字母开头，非构造函数以小写字母开头。
+通过new操作符调用构造函数，会创建一个 Person 的实例。具体的创建过程如下：
+ 在内存中创建一个新对象。 这个新对象内部的[[Prototype]]特性被赋值为构造函数的prototype属性。 执行构造函数内的代码，并以刚才新建的对象作为this值。 若构造函数返回非空对象，则返回该对象，否则返回刚才创建的对象。  每个函数都会有prototype属性，它是一个对象，默认有一个属性constructor指向函数本身。而通过new操作符创建的新对象，内部的[[Prototype]]属性指向该原型对象。下面的例子展示了这些特性：
+function Person() {} Person.prototype.name = &amp;#34;Nicholas&amp;#34;; Person.</description>
     </item>
     
     <item>
