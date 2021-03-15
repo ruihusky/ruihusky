@@ -30,7 +30,7 @@
 <meta property="og:description" content="ruihusky&#39;s Blog - https://ruihusky.github.io/ruihusky/" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://ruihusky.github.io/ruihusky/" />
-<meta property="og:updated_time" content="2021-02-20T20:00:00+08:00" />
+<meta property="og:updated_time" content="2021-03-14T20:00:00+08:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ruihusky&#39;s Blog"/>
 <meta name="twitter:description" content="ruihusky&#39;s Blog - https://ruihusky.github.io/ruihusky/"/>
@@ -129,6 +129,24 @@
 
 
 
+<article class="post-entry"> 
+
+  <header class="entry-header">
+    <h2>
+      Promise实现原理（Promise/A&#43;规范）
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>前言 Promise 对象用于表示一个异步操作的最终完成（或失败），及其结果值。它最早由社区提出和实现，其中有多种 Promise 规范。ES6 按照 Promise/A&#43; 规范将其写进了语言标准。 关于该规范的详情可参考：Promise/A&#43;规范 中文翻译。
+基础实现 我们先尝试实现最简单的 Promise 功能：通过 Promise 包装异步请求，并使用then方法注册回调函数，通过resolve方法通知 Promise 异步请求已解决，并执行回调函数。 模拟一个基础的异步 http 请求，并使用 Promise 封装：
+// 模拟http请求 const mockAjax = (url, s, callback) =&gt; { console.log(&#34;[mockAjax] start&#34;); setTimeout(() =&gt; { console.log(&#34;[mockAjax] callback&#34;); callback(&#34;异步结果：&#34; &#43; url &#43; &#34;异步请求耗时&#34; &#43; s &#43; &#34;秒&#34;); }, 1000 * s); }; // Promise基础功能 new Promise((resolve) =&gt; { mockAjax(&#34;getUserId&#34;, 1, function (result) { resolve(result); }); }) .then((result) =&gt; { console....</p>
+  </section>
+  <footer class="entry-footer">
+
+November 27, 2020&nbsp;·&nbsp;ruihusky
+</footer>
+  <a class="entry-link" aria-label="post link to Promise实现原理（Promise/A&#43;规范）" href="https://ruihusky.github.io/ruihusky/posts/2020-11-27_promise-aplus/"></a>
+</article>
 <article class="post-entry"> 
 
   <header class="entry-header">

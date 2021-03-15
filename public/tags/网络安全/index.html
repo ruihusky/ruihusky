@@ -5,12 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Posts | ruihusky&#39;s Blog</title>
+<title>网络安全 | ruihusky&#39;s Blog</title>
 
 <meta name="keywords" content="" />
 <meta name="description" content="ruihusky&#39;s Blog - https://ruihusky.github.io/ruihusky/">
 <meta name="author" content="ruihusky">
-<link rel="canonical" href="https://ruihusky.github.io/ruihusky/posts/" />
+<link rel="canonical" href="https://ruihusky.github.io/ruihusky/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" />
 <link href="/ruihusky/assets/css/stylesheet.min.3b4ed2e80185ab356f837eda72c1debdea24ca2d707d78b82f2534624843aaa0.css" integrity="sha256-O07S6AGFqzVvg37acsHeveokyi1wfXi4LyU0YkhDqqA=" rel="preload stylesheet"
     as="style">
 
@@ -22,16 +22,16 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <meta name="generator" content="Hugo 0.80.0" />
-<link rel="alternate" type="application/rss&#43;xml" href="https://ruihusky.github.io/ruihusky/posts/index.xml">
+<link rel="alternate" type="application/rss&#43;xml" href="https://ruihusky.github.io/ruihusky/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/index.xml">
 
 
-<meta property="og:title" content="Posts" />
+<meta property="og:title" content="网络安全" />
 <meta property="og:description" content="ruihusky&#39;s Blog - https://ruihusky.github.io/ruihusky/" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://ruihusky.github.io/ruihusky/posts/" />
+<meta property="og:url" content="https://ruihusky.github.io/ruihusky/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" />
 <meta property="og:updated_time" content="2021-03-14T20:00:00+08:00" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:title" content="网络安全"/>
 <meta name="twitter:description" content="ruihusky&#39;s Blog - https://ruihusky.github.io/ruihusky/"/>
 
 
@@ -115,57 +115,42 @@
 <header class="page-header">
 <div class="breadcrumbs">
 
-    <a href="https://ruihusky.github.io/ruihusky/">Home</a>
+    <a href="https://ruihusky.github.io/ruihusky/">Home</a>&nbsp;»&nbsp;<a href="https://ruihusky.github.io/ruihusky/tags/">Tags</a>
 </div>
 
-  <h1>Posts</h1>
+  <h1>网络安全</h1>
 </header>
 
 
 
-<article class="post-entry"> 
+<article class="post-entry tag-entry"> 
 
   <header class="entry-header">
     <h2>
-      Promise实现原理（Promise/A&#43;规范）
+      CSRF的原理与防御
     </h2>
   </header>
   <section class="entry-content">
-    <p>前言 Promise 对象用于表示一个异步操作的最终完成（或失败），及其结果值。它最早由社区提出和实现，其中有多种 Promise 规范。ES6 按照 Promise/A&#43; 规范将其写进了语言标准。 关于该规范的详情可参考：Promise/A&#43;规范 中文翻译。
-基础实现 我们先尝试实现最简单的 Promise 功能：通过 Promise 包装异步请求，并使用then方法注册回调函数，通过resolve方法通知 Promise 异步请求已解决，并执行回调函数。 模拟一个基础的异步 http 请求，并使用 Promise 封装：
-// 模拟http请求 const mockAjax = (url, s, callback) =&gt; { console.log(&#34;[mockAjax] start&#34;); setTimeout(() =&gt; { console.log(&#34;[mockAjax] callback&#34;); callback(&#34;异步结果：&#34; &#43; url &#43; &#34;异步请求耗时&#34; &#43; s &#43; &#34;秒&#34;); }, 1000 * s); }; // Promise基础功能 new Promise((resolve) =&gt; { mockAjax(&#34;getUserId&#34;, 1, function (result) { resolve(result); }); }) .then((result) =&gt; { console....</p>
+    <p>CSRF 原理 CSRF 的全称是 Cross Site Request Forgery 的缩写，即跨站请求伪造。简单的说，当用户在被攻击网站未退出登陆时，攻击者欺骗用户在攻击者的网站请求了被攻击网站某一需要登录权限的链接，则构成 CSRF。
+举一个经典的例子：
+用户登录了某一家银行网站，其登陆状态由浏览器 cookie 与服务器 session 维持。该网站有一用于执行转账操作的 get 请求：
+https://bank.example.com/withdraw?account=AccoutName&amp;amount=1000&amp;for=PayeeName。
+攻击者在一个恶意网站上放置如下代码：
+&lt;img src=&#34;https://bank.example.com/withdraw?account=Alice&amp;amount=1000&amp;for=Badman&#34; /&gt;。
+如果用户登录了银行网站之后还未退出登陆，并访问了恶意网站，则上述img标签会发出转账请求，并携带银行网站的登录态 cookie。服务器收到了请求，并查看 cookie，发现用户依然是登陆状态，则认为该次请求合法。于是用户的银行账户就损失了 1000 资金。
+注意到，攻击者并不能通过 CSRF 直接获取用户帐户的控制权限，也不能窃取用户的任何信息。攻击者能做的是欺骗用户的浏览器，让其以用户的名义执行操作。
+CSRF 防御 CSRF 具备两个特点：
+ CSRF 通常是发生在第三方域名的 CSRF 通过欺骗浏览器来使用 cookie 中的信息，以获取用户权限来执行某些操作  针对这两个特点，我们可以制定对应的防护策略。
+检查 Referer 字段 http 请求头中有一个 Referer 字段，用于标识该请求来源于哪个地址。如果是来自恶意网站的请求，则 Referer 字段将会是恶意网站的地址，服务器可以拒绝该次请求。服务器也可以设置为只允许来自于特定 Referer 的请求，相当于一个白名单规则。
+这种方法实现简单，但也有其局限性。虽然 http 协议对 Referer 字段的内容有明确的规定，但无法保证浏览器的具体实现，也无法保证浏览器自身是否没有安全漏洞。使用检查 Referer 字段的方法，等于将安全性依赖于第三方浏览器实现。
+CSRF token CSRF 中，攻击者只能利用 cookie 中的信息。我们可以要求所有的用户请求都携带一个攻击者无法获得的 token。原理是：当用户发送请求时，服务器端应用生成一个随机且唯一的令牌（token），并将其发送给客户端。客户端提交请求的时候，将 token 一起发送到服务端，服务端通过验证 token 是否有效来判断该次请求的合法性。...</p>
   </section>
   <footer class="entry-footer">
 
-November 27, 2020&nbsp;·&nbsp;ruihusky
+March 14, 2021&nbsp;·&nbsp;ruihusky
 </footer>
-  <a class="entry-link" aria-label="post link to Promise实现原理（Promise/A&#43;规范）" href="https://ruihusky.github.io/ruihusky/posts/2020-11-27_promise-aplus/"></a>
+  <a class="entry-link" aria-label="post link to CSRF的原理与防御" href="https://ruihusky.github.io/ruihusky/posts/2021-03-15_csrf-and-xss/"></a>
 </article>
-<article class="post-entry"> 
-
-  <header class="entry-header">
-    <h2>
-      JavaScript原型与继承
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>构造函数模式与原型 在 ES5 中，我们可以自定义构造函数用于创建特定的类型对象，例如：
-// 定义构造函数 function Person(name, age, job) { this.name = name; this.age = age; this.job = job; this.sayName = function () { console.log(this.name); }; } // 以 new 操作符调用构造函数 let person1 = new Person(&#34;Nicholas&#34;, 29, &#34;Software Engineer&#34;); let person2 = new Person(&#34;Greg&#34;, 27, &#34;Doctor&#34;); person1.sayName(); // Nicholas person2.sayName(); // Greg 其实这里的“构造函数”说法只是一种概念上的区分，它与普通的 JavaScript 函数没什么区别。通常会约定构造函数以大写字母开头，非构造函数以小写字母开头。
-通过new操作符调用构造函数，会创建一个 Person 的实例。具体的创建过程如下：
- 在内存中创建一个新对象。 这个新对象内部的[[Prototype]]特性被赋值为构造函数的prototype属性。 执行构造函数内的代码，并以刚才新建的对象作为this值。 若构造函数返回非空对象，则返回该对象，否则返回刚才创建的对象。  每个函数都会有prototype属性，它是一个对象，默认有一个属性constructor指向函数本身。而通过new操作符创建的新对象，内部的[[Prototype]]属性指向该原型对象。下面的例子展示了这些特性：
-function Person() {} Person.prototype.name = &#34;Nicholas&#34;; Person....</p>
-  </section>
-  <footer class="entry-footer">
-
-November 12, 2020&nbsp;·&nbsp;ruihusky
-</footer>
-  <a class="entry-link" aria-label="post link to JavaScript原型与继承" href="https://ruihusky.github.io/ruihusky/posts/2020-11-12_js-prototype/"></a>
-</article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="prev" href="https://ruihusky.github.io/ruihusky/posts/">« 上一页</a>
-  </nav>
-</footer>
 
     </main><footer class="footer">
     <span>ruihusky&rsquo;s Blog</span>
