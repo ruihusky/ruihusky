@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>JavaScript on ruihusky&#39;s Blog</title>
     <link>https://ruihusky.github.io/ruihusky/tags/javascript/</link>
@@ -15,7 +15,7 @@
       <guid>https://ruihusky.github.io/ruihusky/posts/2020-11-27_promise-aplus/</guid>
       <description>前言 Promise 对象用于表示一个异步操作的最终完成（或失败），及其结果值。它最早由社区提出和实现，其中有多种 Promise 规范。ES6 按照 Promise/A+ 规范将其写进了语言标准。 关于该规范的详情可参考：Promise/A+规范 中文翻译。
 基础实现 我们先尝试实现最简单的 Promise 功能：通过 Promise 包装异步请求，并使用then方法注册回调函数，通过resolve方法通知 Promise 异步请求已解决，并执行回调函数。 模拟一个基础的异步 http 请求，并使用 Promise 封装：
-// 模拟http请求 const mockAjax = (url, s, callback) =&amp;gt; { console.log(&amp;#34;[mockAjax] start&amp;#34;); setTimeout(() =&amp;gt; { console.log(&amp;#34;[mockAjax] callback&amp;#34;); callback(&amp;#34;异步结果：&amp;#34; + url + &amp;#34;异步请求耗时&amp;#34; + s + &amp;#34;秒&amp;#34;); }, 1000 * s); }; // Promise基础功能 new Promise((resolve) =&amp;gt; { mockAjax(&amp;#34;getUserId&amp;#34;, 1, function (result) { resolve(result); }); }) .then((result) =&amp;gt; { console.</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20  // 模拟http请求 const mockAjax = (url, s, callback) =&amp;gt; { console.log(&amp;#34;[mockAjax] start&amp;#34;); setTimeout(() =&amp;gt; { console.log(&amp;#34;[mockAjax] callback&amp;#34;); callback(&amp;#34;异步结果：&amp;#34; + url + &amp;#34;异步请求耗时&amp;#34; + s + &amp;#34;秒&amp;#34;); }, 1000 * s); }; // Promise基础功能 new Promise((resolve) =&amp;gt; { mockAjax(&amp;#34;getUserId&amp;#34;, 1, function (result) { resolve(result); }); }) .</description>
     </item>
     
     <item>
@@ -25,10 +25,7 @@
       
       <guid>https://ruihusky.github.io/ruihusky/posts/2020-11-12_js-prototype/</guid>
       <description>构造函数模式与原型 在 ES5 中，我们可以自定义构造函数用于创建特定的类型对象，例如：
-// 定义构造函数 function Person(name, age, job) { this.name = name; this.age = age; this.job = job; this.sayName = function () { console.log(this.name); }; } // 以 new 操作符调用构造函数 let person1 = new Person(&amp;#34;Nicholas&amp;#34;, 29, &amp;#34;Software Engineer&amp;#34;); let person2 = new Person(&amp;#34;Greg&amp;#34;, 27, &amp;#34;Doctor&amp;#34;); person1.sayName(); // Nicholas person2.sayName(); // Greg 其实这里的“构造函数”说法只是一种概念上的区分，它与普通的 JavaScript 函数没什么区别。通常会约定构造函数以大写字母开头，非构造函数以小写字母开头。
-通过new操作符调用构造函数，会创建一个 Person 的实例。具体的创建过程如下：
- 在内存中创建一个新对象。 这个新对象内部的[[Prototype]]特性被赋值为构造函数的prototype属性。 执行构造函数内的代码，并以刚才新建的对象作为this值。 若构造函数返回非空对象，则返回该对象，否则返回刚才创建的对象。  每个函数都会有prototype属性，它是一个对象，默认有一个属性constructor指向函数本身。而通过new操作符创建的新对象，内部的[[Prototype]]属性指向该原型对象。下面的例子展示了这些特性：
-function Person() {} Person.prototype.name = &amp;#34;Nicholas&amp;#34;; Person.</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  // 定义构造函数 function Person(name, age, job) { this.name = name; this.age = age; this.job = job; this.sayName = function () { console.log(this.name); }; } // 以 new 操作符调用构造函数 let person1 = new Person(&amp;#34;Nicholas&amp;#34;, 29, &amp;#34;Software Engineer&amp;#34;); let person2 = new Person(&amp;#34;Greg&amp;#34;, 27, &amp;#34;Doctor&amp;#34;); person1.sayName(); // Nicholas person2.sayName(); // Greg   其实这里的“构造函数”说法只是一种概念上的区分，它与普通的 JavaScript 函数没什么区别。通常会约定构造函数以大写字母开头，非构造函数以小写字母开头。</description>
     </item>
     
   </channel>

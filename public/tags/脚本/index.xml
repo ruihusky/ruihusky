@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>脚本 on ruihusky&#39;s Blog</title>
     <link>https://ruihusky.github.io/ruihusky/tags/%E8%84%9A%E6%9C%AC/</link>
@@ -17,7 +17,7 @@
 WSL 2 使用轻量级虚拟机 (VM) 技术运行 Linux 内核，因此 WSL 2 是有自己的独立 IP 地址的，进行网络应用开发时的情况与 WSL 1 有所不同。
 从 Windows 访问 WSL 2 网络 在 Windows 使用 localhost 可以直接访问 WSL 2 中运行的网络应用。
 从 WSL 2 访问 Windows 网络 需要使用主机的 IP 地址进行访问。可以使用以下命令获取主机 IP 地址：
-$ cat /etc/resolv.conf | grep -oP &amp;#39;(?&amp;lt;=nameserver\ ).*&amp;#39; 172.20.144.1 以在 WSL 2 (Ubuntu 18.04) 中使用 Windows 网络代理（此处为 socks5 代理）为例，向 ~/.bashrc 中写入以下内容：</description>
+1 2  $ cat /etc/resolv.conf | grep -oP &amp;#39;(?&amp;lt;=nameserver\ ).*&amp;#39; 172.20.144.1   以在 WSL 2 (Ubuntu 18.04) 中使用 Windows 网络代理（此处为 socks5 代理）为例，向 ~/.</description>
     </item>
     
   </channel>
