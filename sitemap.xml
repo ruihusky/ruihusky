@@ -4,26 +4,41 @@
   
   <url>
     <loc>https://ruihusky.github.io/ruihusky/categories/</loc>
-    <lastmod>2021-03-14T20:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://ruihusky.github.io/ruihusky/posts/2021-03-15_csrf-and-xss/</loc>
-    <lastmod>2021-03-14T20:00:00+08:00</lastmod>
+    <lastmod>2021-06-20T20:00:00+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://ruihusky.github.io/ruihusky/posts/</loc>
-    <lastmod>2021-03-14T20:00:00+08:00</lastmod>
+    <lastmod>2021-06-20T20:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ruihusky.github.io/ruihusky/posts/2021-06-20_react-hooks/</loc>
+    <lastmod>2021-06-20T20:00:00+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://ruihusky.github.io/ruihusky/</loc>
-    <lastmod>2021-03-14T20:00:00+08:00</lastmod>
+    <lastmod>2021-06-20T20:00:00+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://ruihusky.github.io/ruihusky/tags/</loc>
+    <lastmod>2021-06-20T20:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ruihusky.github.io/ruihusky/tags/%E6%A1%86%E6%9E%B6%E5%8E%9F%E7%90%86/</loc>
+    <lastmod>2021-06-20T20:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ruihusky.github.io/ruihusky/categories/%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2021-06-20T20:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ruihusky.github.io/ruihusky/posts/2021-03-15_csrf-and-xss/</loc>
     <lastmod>2021-03-14T20:00:00+08:00</lastmod>
   </url>
   
@@ -44,11 +59,6 @@
   
   <url>
     <loc>https://ruihusky.github.io/ruihusky/tags/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2021-02-20T20:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://ruihusky.github.io/ruihusky/categories/%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/</loc>
     <lastmod>2021-02-20T20:00:00+08:00</lastmod>
   </url>
   

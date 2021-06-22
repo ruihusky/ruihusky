@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>理论基础 on ruihusky&#39;s Blog</title>
     <link>https://ruihusky.github.io/ruihusky/categories/%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/</link>
     <description>Recent content in 理论基础 on ruihusky&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>ruihusky&#39;s Blog</copyright>
-    <lastBuildDate>Sat, 20 Feb 2021 20:00:00 +0800</lastBuildDate><atom:link href="https://ruihusky.github.io/ruihusky/categories/%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 20 Jun 2021 20:00:00 +0800</lastBuildDate><atom:link href="https://ruihusky.github.io/ruihusky/categories/%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>React Hooks 原理简析</title>
+      <link>https://ruihusky.github.io/ruihusky/posts/2021-06-20_react-hooks/</link>
+      <pubDate>Sun, 20 Jun 2021 20:00:00 +0800</pubDate>
+      
+      <guid>https://ruihusky.github.io/ruihusky/posts/2021-06-20_react-hooks/</guid>
+      <description>说明 本文的原理简析基于 React 17.0.2 和 Legacy Mode ，不涉及 Concurrent Mode 。
+函数组件与类组件 想要理解 Hooks，需要先理解函数组件与类组件之间的区别。
+先看概括 React 设计理念的公式：
+1  UI = render(data)   React 根据状态渲染视图，且一个状态对应一个渲染结果。也就是说，数据是和渲染结果绑定的。
+类组件与可变的 this 在 React 中，推荐使用不可变数据 (immutable data) 描述状态。需要更新状态时，应使用一份新的数据，而不是对原来的数据进行修改。
+不过就算使用不可变数据，类组件中还是会有this的问题。先看一个类组件示例：
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  /** 假设这里是某个用户的个人信息页 点击 Follow 将会关注该用户，关注成功后需要弹出消息，提示关注成功 通过 setTimeout 模拟了一个响应较慢的接口 */ class ProfilePage extends React.Component { showMessage = () =&amp;gt; { alert(&amp;#39;Followed &amp;#39; + this.</description>
+    </item>
+    
     <item>
       <title>十大经典排序算法</title>
       <link>https://ruihusky.github.io/ruihusky/posts/2021-02-21_sorting-algorithm/</link>
@@ -22,7 +37,7 @@
 算法描述
  比较相邻的元素。如果第一个比第二个大，就交换他们两个； 对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数； 针对所有的元素重复以上的步骤，除了最后一个； 重复步骤 1~3，直到没有任何一对数字需要比较； 可选的优化步骤：某次步骤 1~3 执行过程中没有元素发生交换，则证明该序列已经有序，不需要再进行下一次序列遍历。  动图演示
 代码实现
-// TypeScript实现 export function bubbleSort(arr: number[]) { const len = arr.length; for (let i = 0; i &amp;lt; len - 1; i++) { let sorted = true; for (let j = 0; j &amp;lt; len - 1 - i; j++) { if (arr[j] &amp;gt; arr[j + 1]) { sorted = false; [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]; } } if (sorted) break; } return arr; } 算法分析</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  // TypeScript实现 export function bubbleSort(arr: number[]) { const len = arr.</description>
     </item>
     
     <item>
@@ -46,7 +61,7 @@ Unicode 是一个庞大的字符编码集合，是一种用于展示世界上所
       <guid>https://ruihusky.github.io/ruihusky/posts/2020-11-27_promise-aplus/</guid>
       <description>前言 Promise 对象用于表示一个异步操作的最终完成（或失败），及其结果值。它最早由社区提出和实现，其中有多种 Promise 规范。ES6 按照 Promise/A+ 规范将其写进了语言标准。 关于该规范的详情可参考：Promise/A+规范 中文翻译。
 基础实现 我们先尝试实现最简单的 Promise 功能：通过 Promise 包装异步请求，并使用then方法注册回调函数，通过resolve方法通知 Promise 异步请求已解决，并执行回调函数。 模拟一个基础的异步 http 请求，并使用 Promise 封装：
-// 模拟http请求 const mockAjax = (url, s, callback) =&amp;gt; { console.log(&amp;#34;[mockAjax] start&amp;#34;); setTimeout(() =&amp;gt; { console.log(&amp;#34;[mockAjax] callback&amp;#34;); callback(&amp;#34;异步结果：&amp;#34; + url + &amp;#34;异步请求耗时&amp;#34; + s + &amp;#34;秒&amp;#34;); }, 1000 * s); }; // Promise基础功能 new Promise((resolve) =&amp;gt; { mockAjax(&amp;#34;getUserId&amp;#34;, 1, function (result) { resolve(result); }); }) .then((result) =&amp;gt; { console.</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20  // 模拟http请求 const mockAjax = (url, s, callback) =&amp;gt; { console.log(&amp;#34;[mockAjax] start&amp;#34;); setTimeout(() =&amp;gt; { console.log(&amp;#34;[mockAjax] callback&amp;#34;); callback(&amp;#34;异步结果：&amp;#34; + url + &amp;#34;异步请求耗时&amp;#34; + s + &amp;#34;秒&amp;#34;); }, 1000 * s); }; // Promise基础功能 new Promise((resolve) =&amp;gt; { mockAjax(&amp;#34;getUserId&amp;#34;, 1, function (result) { resolve(result); }); }) .</description>
     </item>
     
     <item>
@@ -56,10 +71,7 @@ Unicode 是一个庞大的字符编码集合，是一种用于展示世界上所
       
       <guid>https://ruihusky.github.io/ruihusky/posts/2020-11-12_js-prototype/</guid>
       <description>构造函数模式与原型 在 ES5 中，我们可以自定义构造函数用于创建特定的类型对象，例如：
-// 定义构造函数 function Person(name, age, job) { this.name = name; this.age = age; this.job = job; this.sayName = function () { console.log(this.name); }; } // 以 new 操作符调用构造函数 let person1 = new Person(&amp;#34;Nicholas&amp;#34;, 29, &amp;#34;Software Engineer&amp;#34;); let person2 = new Person(&amp;#34;Greg&amp;#34;, 27, &amp;#34;Doctor&amp;#34;); person1.sayName(); // Nicholas person2.sayName(); // Greg 其实这里的“构造函数”说法只是一种概念上的区分，它与普通的 JavaScript 函数没什么区别。通常会约定构造函数以大写字母开头，非构造函数以小写字母开头。
-通过new操作符调用构造函数，会创建一个 Person 的实例。具体的创建过程如下：
- 在内存中创建一个新对象。 这个新对象内部的[[Prototype]]特性被赋值为构造函数的prototype属性。 执行构造函数内的代码，并以刚才新建的对象作为this值。 若构造函数返回非空对象，则返回该对象，否则返回刚才创建的对象。  每个函数都会有prototype属性，它是一个对象，默认有一个属性constructor指向函数本身。而通过new操作符创建的新对象，内部的[[Prototype]]属性指向该原型对象。下面的例子展示了这些特性：
-function Person() {} Person.prototype.name = &amp;#34;Nicholas&amp;#34;; Person.</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  // 定义构造函数 function Person(name, age, job) { this.name = name; this.age = age; this.job = job; this.sayName = function () { console.log(this.name); }; } // 以 new 操作符调用构造函数 let person1 = new Person(&amp;#34;Nicholas&amp;#34;, 29, &amp;#34;Software Engineer&amp;#34;); let person2 = new Person(&amp;#34;Greg&amp;#34;, 27, &amp;#34;Doctor&amp;#34;); person1.sayName(); // Nicholas person2.sayName(); // Greg   其实这里的“构造函数”说法只是一种概念上的区分，它与普通的 JavaScript 函数没什么区别。通常会约定构造函数以大写字母开头，非构造函数以小写字母开头。</description>
     </item>
     
   </channel>

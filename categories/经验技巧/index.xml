@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>经验技巧 on ruihusky&#39;s Blog</title>
     <link>https://ruihusky.github.io/ruihusky/categories/%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7/</link>
@@ -37,7 +37,7 @@ CSRF token CSRF 中，攻击者只能利用 cookie 中的信息。我们可以�
       <description>flex 布局中的问题 最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：
 页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局促了。
 这个问题看起来不难。使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：
-&amp;lt;div class=&amp;#34;page-container&amp;#34;&amp;gt; &amp;lt;!-- ...其他flex子项 --&amp;gt; &amp;lt;div class=&amp;#34;image-wrap&amp;#34;&amp;gt; &amp;lt;!-- 为了实现多个动画效果，图片被一个div包裹 --&amp;gt; &amp;lt;img class=&amp;#34;image&amp;#34; src=&amp;#34;...&amp;#34; /&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;!-- ...其他flex子项 --&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;!-- vue css scope --&amp;gt; &amp;lt;style&amp;gt; .page-container { width: 750px; /* 父元素固定100vh */ height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; } .image-wrap { /* 让flex子元素自动伸展、自动压缩，并且设置最大、最小高度 */ flex-grow: 1; flex-shrink: 1; max-height: 688px; min-height: 613px; } .</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35  &amp;lt;div class=&amp;#34;page-container&amp;#34;&amp;gt; &amp;lt;!-- ...其他flex子项 --&amp;gt; &amp;lt;div class=&amp;#34;image-wrap&amp;#34;&amp;gt; &amp;lt;!-- 为了实现多个动画效果，图片被一个div包裹 --&amp;gt; &amp;lt;img class=&amp;#34;image&amp;#34; src=&amp;#34;...&amp;#34; /&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;!-- ...其他flex子项 --&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;!-- vue css scope --&amp;gt; &amp;lt;style&amp;gt; .</description>
     </item>
     
     <item>
@@ -50,7 +50,7 @@ CSRF token CSRF 中，攻击者只能利用 cookie 中的信息。我们可以�
 WSL 2 使用轻量级虚拟机 (VM) 技术运行 Linux 内核，因此 WSL 2 是有自己的独立 IP 地址的，进行网络应用开发时的情况与 WSL 1 有所不同。
 从 Windows 访问 WSL 2 网络 在 Windows 使用 localhost 可以直接访问 WSL 2 中运行的网络应用。
 从 WSL 2 访问 Windows 网络 需要使用主机的 IP 地址进行访问。可以使用以下命令获取主机 IP 地址：
-$ cat /etc/resolv.conf | grep -oP &amp;#39;(?&amp;lt;=nameserver\ ).*&amp;#39; 172.20.144.1 以在 WSL 2 (Ubuntu 18.04) 中使用 Windows 网络代理（此处为 socks5 代理）为例，向 ~/.bashrc 中写入以下内容：</description>
+1 2  $ cat /etc/resolv.conf | grep -oP &amp;#39;(?&amp;lt;=nameserver\ ).*&amp;#39; 172.20.144.1   以在 WSL 2 (Ubuntu 18.04) 中使用 Windows 网络代理（此处为 socks5 代理）为例，向 ~/.</description>
     </item>
     
   </channel>
