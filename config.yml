@@ -19,7 +19,7 @@ params:
   title: ruihusky's Blog
   description: "ruihusky's Blog - https://ruihusky.github.io/ruihusky/"
   keywords: [ruihusky, 技术博客, 个人博客]
-  # author: ruihusky
+  author: ruihusky
   DateFormat: "2006年1月2日"
   defaultTheme: auto
   disableThemeToggle: false
