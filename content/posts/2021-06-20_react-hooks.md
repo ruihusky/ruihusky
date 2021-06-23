@@ -158,7 +158,7 @@ isMounted ? true
 valueB = changed value a
 ```
 
-注意第二次渲染时控制台的输出：`valueB = changed value a`，明明调用的是`[valueB, setValueB] = useState("initial value b")`，为什么`valueB`的值变成了`changed value a`？
+注意第二次渲染时控制台的输出：`valueB = changed value a`，明明调用的是`[valueB, setValueB] = useState("initial value b")`，为什么`valueB`的值变成了`changed value a`呢？
 
 带着疑问我们看看源码中 React 做了哪些事情。
 
@@ -342,7 +342,9 @@ function mountEffect(
 ): void {
   // ...
   return mountEffectImpl(
+    // 传入的 fiberFlags ，PassiveEffect 代表惰性 effect
     UpdateEffect | PassiveEffect,
+    // 传入的 hookFlags，HookPassive 代表惰性 hook
     HookPassive,
     create,
     deps,
@@ -350,17 +352,24 @@ function mountEffect(
 }
 ```
 
-它实际调用了 [mountEffectImpl](https://github.com/facebook/react/blob/17.0.2/packages/react-reconciler/src/ReactFiberHooks.old.js#L1193) 函数：
+mountEffect 调用了 mountEffectImpl 函数，并传入了当前 Fiber 节点的标志位 flags 和 Hook 的标志位 hookFlags ，这些标志位将在后续流程被 React 使用。
+
+需要留意的是 HookPassive 这个 hookFlag ，它代表该 Hook 是一个惰性 Hook ，将被异步调度。
+
+[mountEffectImpl](https://github.com/facebook/react/blob/17.0.2/packages/react-reconciler/src/ReactFiberHooks.old.js#L1193) 函数：
 
 ```javascript
 function mountEffectImpl(fiberFlags, hookFlags, create, deps): void {
+  // 创建 hook 对象
   const hook = mountWorkInProgressHook();
   const nextDeps = deps === undefined ? null : deps;
   currentlyRenderingFiber.flags |= fiberFlags;
   hook.memoizedState = pushEffect(
+    // hookFlags: HookHasEffect 代表该 hook 需要被执行
     HookHasEffect | hookFlags,
     // create 就是实际传入的 effect 函数
     create,
+    // 上个 effect 的销毁函数。由于是第一次执行，不存在该函数。
     undefined,
     // nextDeps 是传入的依赖项数组
     nextDeps,
@@ -369,6 +378,8 @@ function mountEffectImpl(fiberFlags, hookFlags, create, deps): void {
 ```
 
 mountEffectImpl 创建了一个新的 hook 对象，并将其 memoizedState 属性设置为 pushEffect 的返回值。
+
+传入 pushEffect 函数的 hookFlags 参数中，HookHasEffect 标志位代表该 Hook 需要被执行，React 将会在后续流程检测这个标志位。
 
 再来看看 [pushEffect](https://github.com/facebook/react/blob/17.0.2/packages/react-reconciler/src/ReactFiberHooks.old.js#L1150) 函数做了什么：
 
@@ -446,24 +457,7 @@ function commitLifeCycles(
     case ForwardRef:
     case SimpleMemoComponent:
     case Block: {
-      // At this point layout effects have already been destroyed (during mutation phase).
-      // This is done to prevent sibling component effects from interfering with each other,
-      // e.g. a destroy function in one component should never override a ref set
-      // by a create function in another component during the same commit.
-      if (
-        enableProfilerTimer &&
-        enableProfilerCommitHooks &&
-        finishedWork.mode & ProfileMode
-      ) {
-        try {
-          startLayoutEffectTimer();
-          commitHookEffectListMount(HookLayout | HookHasEffect, finishedWork);
-        } finally {
-          recordLayoutEffectDuration(finishedWork);
-        }
-      } else {
-        commitHookEffectListMount(HookLayout | HookHasEffect, finishedWork);
-      }
+      // ...
       // useEffect 产生的 effect 属于 PassiveEffect ，将在这里调度执行
       schedulePassiveEffects(finishedWork);
       return;
@@ -486,6 +480,7 @@ function schedulePassiveEffects(finishedWork: Fiber) {
     do {
       const {next, tag} = effect;
       if (
+        // 如果 effect 的标志位存在 HookHasEffect 和 HookPassive
         (tag & HookPassive) !== NoHookEffect &&
         (tag & HookHasEffect) !== NoHookEffect
       ) {
@@ -496,7 +491,7 @@ function schedulePassiveEffects(finishedWork: Fiber) {
         // 相当于 pendingPassiveHookEffectsMount.push(effect, finishedWork)
         enqueuePendingPassiveHookEffectMount(finishedWork, effect);
       }
-      // 移动指针，走访整个链表
+      // 移动指针，访问整个 effect 链表
       effect = next;
     } while (effect !== firstEffect);
   }
@@ -504,7 +499,9 @@ function schedulePassiveEffects(finishedWork: Fiber) {
 
 ```
 
-schedulePassiveEffects 遍历 effect 链表，将 effect 的销毁函数、执行函数推入了队列。那么队列中的函数是什么时候执行的呢？这涉及到 React 的调度机制，这里不再展开叙述。我们先简单认为这两个队列将在某个时机异步执行，其执行函数就是 [flushPassiveEffects](https://github.com/facebook/react/blob/17.0.2/packages/react-reconciler/src/ReactFiberWorkLoop.old.js#L2434) ，该函数最终会调用 [flushPassiveEffectsImpl](https://github.com/facebook/react/blob/17.0.2/packages/react-reconciler/src/ReactFiberWorkLoop.old.js#L2512) ：
+schedulePassiveEffects 遍历 effect 链表，找到所有具有 HookHasEffect 和 HookPassive 标志位的 effect ，将 effect 的销毁函数、执行函数推入了各自所属的队列。队列中的任务将会异步执行。
+
+队列最终是在什么时间执行的呢？这与 React 的调度机制有关，不再展开叙述。我们先简单认为这两个队列将在某个适当的时机异步执行，其执行函数就是 [flushPassiveEffects](https://github.com/facebook/react/blob/17.0.2/packages/react-reconciler/src/ReactFiberWorkLoop.old.js#L2434) ，该函数最终会调用 [flushPassiveEffectsImpl](https://github.com/facebook/react/blob/17.0.2/packages/react-reconciler/src/ReactFiberWorkLoop.old.js#L2512) ：
 
 ```javascript
 function flushPassiveEffectsImpl() {
@@ -557,6 +554,44 @@ flushPassiveEffectsImpl 先依次执行了所有 effect 销毁函数，然后再
 
 1. 若父子组件都使用了 useEffect ，子组件的 effect 将先执行。
 2. 同级兄弟组件， effect 将会按照组件顺序依次执行。
+
+### update 阶段
+
+组件 update 阶段执行 useEffect 时，将会执行 [updateEffectImpl](https://github.com/facebook/react/blob/17.0.2/packages/react-reconciler/src/ReactFiberHooks.old.js#L1205) 函数：
+
+```javascript
+function updateEffectImpl(fiberFlags, hookFlags, create, deps): void {
+  // 从 hook 链表中取出 useEffect hook 对象
+  const hook = updateWorkInProgressHook();
+  const nextDeps = deps === undefined ? null : deps;
+  let destroy = undefined;
+
+  if (currentHook !== null) {
+    const prevEffect = currentHook.memoizedState;
+    destroy = prevEffect.destroy;
+    if (nextDeps !== null) {
+      const prevDeps = prevEffect.deps;
+      // deps 一致则不添加 HookHasEffect 标志，本次更新该 Hook 不执行
+      if (areHookInputsEqual(nextDeps, prevDeps)) {
+        pushEffect(hookFlags, create, destroy, nextDeps);
+        return;
+      }
+    }
+  }
+
+  currentlyRenderingFiber.flags |= fiberFlags;
+  // deps 有变化则重新计算 memoizedState
+  hook.memoizedState = pushEffect(
+    // 为 hookFlags 添加 HookHasEffect 标志
+    HookHasEffect | hookFlags,
+    create,
+    destroy,
+    nextDeps,
+  );
+}
+```
+
+对比 mountEffectImpl ，updateEffectImpl 多了比较 deps 的步骤，若 deps 改变才会对 effect 添加 HookHasEffect 标志，这样才会在后续的 commit 阶段执行该 effect 。
 
 ## useRef
 
