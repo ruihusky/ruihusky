@@ -603,7 +603,7 @@ ref 是 reference（引用）的缩写。React 推荐使用不可变数据，但
 
 useRef Hook 的 hook.memoizedState 中保存着 ref 对象。例如：
 
-```
+```javascript
 const ref = useRef('hello') // ref = hook.memoizedState = { current: 'hello' }
 ```
 
