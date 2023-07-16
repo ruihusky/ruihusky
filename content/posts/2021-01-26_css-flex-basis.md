@@ -72,7 +72,7 @@ tags: ["CSS", "Flex布局"]
 我在查看了更多资料之后，发现 `flex-basis` 还有许多细节：
 
 - 在 flex 布局中，`flex-basis` 就同非 flex 布局中 `width` 属性表现一样；
-- 若同时设置了确定数值的 `flex-basis` 与 `width`，则 `width` 属性会被忽略；
+- 在 flex 布局中，若同时设置了确定数值的 `flex-basis` 与 `width`，则 `width` 属性会被忽略；
 - 当 `flex-basis` 值为 `auto` 时（默认值），子项的基本尺寸根据其自身的尺寸决定。更具体一点地说，由 `box-sizing`、`width`、`min-width`、`max-width`以及元素内容共同决定。
 
 再来看上文的例子，我没有设置 `flex-basis` ，所以它是默认值 `auto`，flex 子项的 `flex-basis` 根据其自身的尺寸决定。对于 `.image-wrap` 元素，根据我所设置的 CSS 样式：
