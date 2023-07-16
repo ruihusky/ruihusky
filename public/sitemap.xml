@@ -2,10 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://ruihusky.github.io/ruihusky/categories/</loc>
+    <loc>https://ruihusky.github.io/ruihusky/posts/</loc>
     <lastmod>2021-06-20T20:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://ruihusky.github.io/ruihusky/posts/</loc>
+    <loc>https://ruihusky.github.io/ruihusky/tags/react/</loc>
     <lastmod>2021-06-20T20:00:00+08:00</lastmod>
   </url><url>
     <loc>https://ruihusky.github.io/ruihusky/posts/2021-06-20_react-hooks/</loc>
@@ -20,22 +20,16 @@
     <loc>https://ruihusky.github.io/ruihusky/tags/%E6%A1%86%E6%9E%B6%E5%8E%9F%E7%90%86/</loc>
     <lastmod>2021-06-20T20:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://ruihusky.github.io/ruihusky/categories/%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/</loc>
-    <lastmod>2021-06-20T20:00:00+08:00</lastmod>
-  </url><url>
     <loc>https://ruihusky.github.io/ruihusky/posts/2021-03-15_csrf-and-xss/</loc>
-    <lastmod>2021-03-14T20:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://ruihusky.github.io/ruihusky/categories/%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7/</loc>
     <lastmod>2021-03-14T20:00:00+08:00</lastmod>
   </url><url>
     <loc>https://ruihusky.github.io/ruihusky/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/</loc>
     <lastmod>2021-03-14T20:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://ruihusky.github.io/ruihusky/posts/2021-02-21_sorting-algorithm/</loc>
+    <loc>https://ruihusky.github.io/ruihusky/tags/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2021-02-20T20:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://ruihusky.github.io/ruihusky/tags/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</loc>
+    <loc>https://ruihusky.github.io/ruihusky/posts/2021-02-21_sorting-algorithm/</loc>
     <lastmod>2021-02-20T20:00:00+08:00</lastmod>
   </url><url>
     <loc>https://ruihusky.github.io/ruihusky/tags/%E7%AE%97%E6%B3%95/</loc>
@@ -62,15 +56,6 @@
     <loc>https://ruihusky.github.io/ruihusky/tags/%E7%BC%96%E7%A0%81/</loc>
     <lastmod>2020-12-16T20:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://ruihusky.github.io/ruihusky/posts/2020-12-11_wsl2-net-config/</loc>
-    <lastmod>2020-12-11T20:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://ruihusky.github.io/ruihusky/tags/wsl/</loc>
-    <lastmod>2020-12-11T20:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://ruihusky.github.io/ruihusky/tags/%E8%84%9A%E6%9C%AC/</loc>
-    <lastmod>2020-12-11T20:00:00+08:00</lastmod>
-  </url><url>
     <loc>https://ruihusky.github.io/ruihusky/tags/javascript/</loc>
     <lastmod>2020-11-27T20:00:00+08:00</lastmod>
   </url><url>
@@ -81,6 +66,8 @@
     <lastmod>2020-11-12T20:00:00+08:00</lastmod>
   </url><url>
     <loc>https://ruihusky.github.io/ruihusky/archives/</loc>
+  </url><url>
+    <loc>https://ruihusky.github.io/ruihusky/categories/</loc>
   </url><url>
     <loc>https://ruihusky.github.io/ruihusky/search/</loc>
   </url>

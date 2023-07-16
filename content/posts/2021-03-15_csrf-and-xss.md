@@ -3,7 +3,6 @@ title: "CSRF的原理与防御"
 date: 2021-03-14T20:00:00+08:00
 draft: false
 tags: ["网络安全"]
-categories: ["经验技巧"]
 ---
 
 ## CSRF 原理

@@ -5,7 +5,8 @@
     <link>https://ruihusky.github.io/ruihusky/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/</link>
     <description>Recent content in 网络安全 on ruihusky&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <copyright>ruihusky&#39;s Blog</copyright>
+    <language>zh</language>
+    <copyright>Content on this site is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).&lt;br /&gt;</copyright>
     <lastBuildDate>Sun, 14 Mar 2021 20:00:00 +0800</lastBuildDate><atom:link href="https://ruihusky.github.io/ruihusky/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CSRF的原理与防御</title>
@@ -22,7 +23,7 @@ https://bank.example.com/withdraw?account=AccoutName&amp;amp;amount=1000&amp;amp
 如果用户登录了银行网站之后还未退出登陆，并访问了恶意网站，则上述img标签会发出转账请求，并携带银行网站的登录态 cookie。服务器收到了请求，并查看 cookie，发现用户依然是登陆状态，则认为该次请求合法。于是用户的银行账户就损失了 1000 资金。
 注意到，攻击者并不能通过 CSRF 直接获取用户帐户的控制权限，也不能窃取用户的任何信息。攻击者能做的是欺骗用户的浏览器，让其以用户的名义执行操作。
 CSRF 防御 CSRF 具备两个特点：
- CSRF 通常是发生在第三方域名的 CSRF 通过欺骗浏览器来使用 cookie 中的信息，以获取用户权限来执行某些操作  针对这两个特点，我们可以制定对应的防护策略。
+CSRF 通常是发生在第三方域名的 CSRF 通过欺骗浏览器来使用 cookie 中的信息，以获取用户权限来执行某些操作 针对这两个特点，我们可以制定对应的防护策略。
 检查 Referer 字段 http 请求头中有一个 Referer 字段，用于标识该请求来源于哪个地址。如果是来自恶意网站的请求，则 Referer 字段将会是恶意网站的地址，服务器可以拒绝该次请求。服务器也可以设置为只允许来自于特定 Referer 的请求，相当于一个白名单规则。
 这种方法实现简单，但也有其局限性。虽然 http 协议对 Referer 字段的内容有明确的规定，但无法保证浏览器的具体实现，也无法保证浏览器自身是否没有安全漏洞。使用检查 Referer 字段的方法，等于将安全性依赖于第三方浏览器实现。
 CSRF token CSRF 中，攻击者只能利用 cookie 中的信息。我们可以要求所有的用户请求都携带一个攻击者无法获得的 token。原理是：当用户发送请求时，服务器端应用生成一个随机且唯一的令牌（token），并将其发送给客户端。客户端提交请求的时候，将 token 一起发送到服务端，服务端通过验证 token 是否有效来判断该次请求的合法性。</description>

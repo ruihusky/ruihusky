@@ -5,7 +5,8 @@
     <link>https://ruihusky.github.io/ruihusky/posts/</link>
     <description>Recent content in Posts on ruihusky&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <copyright>ruihusky&#39;s Blog</copyright>
+    <language>zh</language>
+    <copyright>Content on this site is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).&lt;br /&gt;</copyright>
     <lastBuildDate>Sun, 20 Jun 2021 20:00:00 +0800</lastBuildDate><atom:link href="https://ruihusky.github.io/ruihusky/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>React Hooks 原理简析</title>
@@ -16,10 +17,10 @@
       <description>说明 本文的原理简析基于 React 17.0.2 和 Legacy Mode ，不涉及 Concurrent Mode 。
 函数组件与类组件 想要理解 Hooks，需要先理解函数组件与类组件之间的区别。
 先看概括 React 设计理念的公式：
-1  UI = render(data)   React 根据状态渲染视图，且一个状态对应一个渲染结果。也就是说，数据是和渲染结果绑定的。
+1 UI = render(data) React 根据状态渲染视图，且一个状态对应一个渲染结果。也就是说，数据是和渲染结果绑定的。
 类组件与可变的 this 在 React 中，推荐使用不可变数据 (immutable data) 描述状态。需要更新状态时，应使用一份新的数据，而不是对原来的数据进行修改。
 不过就算使用不可变数据，类组件中还是会有this的问题。先看一个类组件示例：
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  /** 假设这里是某个用户的个人信息页 点击 Follow 将会关注该用户，关注成功后需要弹出消息，提示关注成功 通过 setTimeout 模拟了一个响应较慢的接口 */ class ProfilePage extends React.Component { showMessage = () =&amp;gt; { alert(&amp;#39;Followed &amp;#39; + this.</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 /** 假设这里是某个用户的个人信息页 点击 Follow 将会关注该用户，关注成功后需要弹出消息，提示关注成功 通过 setTimeout 模拟了一个响应较慢的接口 */ class ProfilePage extends React.Component { showMessage = () =&amp;gt; { alert(&amp;#39;Followed &amp;#39; + this.</description>
     </item>
     
     <item>
@@ -37,7 +38,7 @@ https://bank.example.com/withdraw?account=AccoutName&amp;amp;amount=1000&amp;amp
 如果用户登录了银行网站之后还未退出登陆，并访问了恶意网站，则上述img标签会发出转账请求，并携带银行网站的登录态 cookie。服务器收到了请求，并查看 cookie，发现用户依然是登陆状态，则认为该次请求合法。于是用户的银行账户就损失了 1000 资金。
 注意到，攻击者并不能通过 CSRF 直接获取用户帐户的控制权限，也不能窃取用户的任何信息。攻击者能做的是欺骗用户的浏览器，让其以用户的名义执行操作。
 CSRF 防御 CSRF 具备两个特点：
- CSRF 通常是发生在第三方域名的 CSRF 通过欺骗浏览器来使用 cookie 中的信息，以获取用户权限来执行某些操作  针对这两个特点，我们可以制定对应的防护策略。
+CSRF 通常是发生在第三方域名的 CSRF 通过欺骗浏览器来使用 cookie 中的信息，以获取用户权限来执行某些操作 针对这两个特点，我们可以制定对应的防护策略。
 检查 Referer 字段 http 请求头中有一个 Referer 字段，用于标识该请求来源于哪个地址。如果是来自恶意网站的请求，则 Referer 字段将会是恶意网站的地址，服务器可以拒绝该次请求。服务器也可以设置为只允许来自于特定 Referer 的请求，相当于一个白名单规则。
 这种方法实现简单，但也有其局限性。虽然 http 协议对 Referer 字段的内容有明确的规定，但无法保证浏览器的具体实现，也无法保证浏览器自身是否没有安全漏洞。使用检查 Referer 字段的方法，等于将安全性依赖于第三方浏览器实现。
 CSRF token CSRF 中，攻击者只能利用 cookie 中的信息。我们可以要求所有的用户请求都携带一个攻击者无法获得的 token。原理是：当用户发送请求时，服务器端应用生成一个随机且唯一的令牌（token），并将其发送给客户端。客户端提交请求的时候，将 token 一起发送到服务端，服务端通过验证 token 是否有效来判断该次请求的合法性。</description>
@@ -56,9 +57,9 @@ CSRF token CSRF 中，攻击者只能利用 cookie 中的信息。我们可以�
 冒泡排序（Bubble Sort） 一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为：越的元素会经由交换慢慢“浮”到数列的顶端。
 冒泡排序对 n 个项目需要 O(n2)的比较次数，且可以原地排序。尽管这个算法是最简单了解和实现的排序算法之一，但它对于包含大量的元素的数列排序是很没有效率的。
 算法描述
- 比较相邻的元素。如果第一个比第二个大，就交换他们两个； 对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数； 针对所有的元素重复以上的步骤，除了最后一个； 重复步骤 1~3，直到没有任何一对数字需要比较； 可选的优化步骤：某次步骤 1~3 执行过程中没有元素发生交换，则证明该序列已经有序，不需要再进行下一次序列遍历。  动图演示
+比较相邻的元素。如果第一个比第二个大，就交换他们两个； 对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数； 针对所有的元素重复以上的步骤，除了最后一个； 重复步骤 1~3，直到没有任何一对数字需要比较； 可选的优化步骤：某次步骤 1~3 执行过程中没有元素发生交换，则证明该序列已经有序，不需要再进行下一次序列遍历。 动图演示
 代码实现
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  // TypeScript实现 export function bubbleSort(arr: number[]) { const len = arr.</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 // TypeScript实现 export function bubbleSort(arr: number[]) { const len = arr.length; for (let i = 0; i &amp;lt; len - 1; i++) { let sorted = true; for (let j = 0; j &amp;lt; len - 1 - i; j++) { if (arr[j] &amp;gt; arr[j + 1]) { sorted = false; [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]; } } if (sorted) break; } return arr; } 算法分析</description>
     </item>
     
     <item>
@@ -70,7 +71,7 @@ CSRF token CSRF 中，攻击者只能利用 cookie 中的信息。我们可以�
       <description>flex 布局中的问题 最近在开发一个移动端适配的 H5 应用时，遇到了一个布局上的问题。简单描述如下：
 页面从上到下排列有多个元素，其中有几张图片。在高宽比较大的手机上展示时（也就是比较长的手机，例如 iPhone X），布局没什么问题。但在一些小手机上，屏幕的纵轴无法容纳这么多元素。特别当微信浏览器中出现下方的导航栏时，高宽比被进一步减小，纵轴空间更加局促了。
 这个问题看起来不难。使用 flex 布局，让图片元素在小屏幕上自动控制高度，自适应等比缩放不就 OK 了吗？于是写出了如下的代码：
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35  &amp;lt;div class=&amp;#34;page-container&amp;#34;&amp;gt; &amp;lt;!-- ...其他flex子项 --&amp;gt; &amp;lt;div class=&amp;#34;image-wrap&amp;#34;&amp;gt; &amp;lt;!-- 为了实现多个动画效果，图片被一个div包裹 --&amp;gt; &amp;lt;img class=&amp;#34;image&amp;#34; src=&amp;#34;...&amp;#34; /&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;!-- ...其他flex子项 --&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;!-- vue css scope --&amp;gt; &amp;lt;style&amp;gt; .</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 &amp;lt;div class=&amp;#34;page-container&amp;#34;&amp;gt; &amp;lt;!-- ...其他flex子项 --&amp;gt; &amp;lt;div class=&amp;#34;image-wrap&amp;#34;&amp;gt; &amp;lt;!-- 为了实现多个动画效果，图片被一个div包裹 --&amp;gt; &amp;lt;img class=&amp;#34;image&amp;#34; src=&amp;#34;...&amp;#34; /&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;!-- ...其他flex子项 --&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;!-- vue css scope --&amp;gt; &amp;lt;style&amp;gt; .</description>
     </item>
     
     <item>
@@ -82,21 +83,8 @@ CSRF token CSRF 中，攻击者只能利用 cookie 中的信息。我们可以�
       <description>字符编码与 Unicode 编码 字符，又或者说文本在计算机中是以字符编码的方式存储的。计算机以二进制处理信息，每一位只有 1 和 0 两种状态，每个字节就可以组合出2^8=256种状态（1 字节=8 位）。以 ASCII 为例，它用 7 位的二进制来表示字母、数字和其它符号编号，共计 128 个字符，通常会额外使用一个扩充的位，以便于以 1 个字节的方式存储。
 Unicode 是一个庞大的字符编码集合，是一种用于展示世界上所有语言的字符的编码标准。在 20 世纪 80 年代开始启动设计工作时，人们认为两个字节的代码宽度足以对世界上各种语言的所有字符进行编码，并有足够的空间留给未来的扩展，理论上一共最多可以表示 2^16（即 65536）个字符。这 16 位统一码字符构成了基本多文种平面，其编码范围为 U+0000 ~ U+FFFF。
 经过一段时间，Unicode 字符超过了 65536 个，基本多文种平面无法满足描述所有 Unicode 字符的需要了。为了扩展需求，Unicode 在原来的基础上新增了 16 个辅助平面，每个平面的编码范围为：
- 辅助平面 1：U+10000 ~ U+1FFFF 辅助平面 2：U+20000 ~ U+2FFFF &amp;hellip; 辅助平面 15：U+F0000 ~ U+FFFFF 辅助平面 16：U+100000 ~ U+10FFFF  所有辅助平面的编码范围为 U+10000 ~ U+10FFFF，共计 16 个辅助平面，每个辅助平面最多可存储 2^16（即 65536）个字符，也可以说每个辅助平面都有 65536 个码位。
+辅助平面 1：U+10000 ~ U+1FFFF 辅助平面 2：U+20000 ~ U+2FFFF &amp;hellip; 辅助平面 15：U+F0000 ~ U+FFFFF 辅助平面 16：U+100000 ~ U+10FFFF 所有辅助平面的编码范围为 U+10000 ~ U+10FFFF，共计 16 个辅助平面，每个辅助平面最多可存储 2^16（即 65536）个字符，也可以说每个辅助平面都有 65536 个码位。
 到这里为止，还只是 Unicode 的编码方式，下文简要说明其几种实现方式。</description>
-    </item>
-    
-    <item>
-      <title>Windows 10 WSL 2 网络配置</title>
-      <link>https://ruihusky.github.io/ruihusky/posts/2020-12-11_wsl2-net-config/</link>
-      <pubDate>Fri, 11 Dec 2020 20:00:00 +0800</pubDate>
-      
-      <guid>https://ruihusky.github.io/ruihusky/posts/2020-12-11_wsl2-net-config/</guid>
-      <description>使用 WSL 2 时建议将 Windows 10 升级到 版本 2004 或更高版本。
-WSL 2 使用轻量级虚拟机 (VM) 技术运行 Linux 内核，因此 WSL 2 是有自己的独立 IP 地址的，进行网络应用开发时的情况与 WSL 1 有所不同。
-从 Windows 访问 WSL 2 网络 在 Windows 使用 localhost 可以直接访问 WSL 2 中运行的网络应用。
-从 WSL 2 访问 Windows 网络 需要使用主机的 IP 地址进行访问。可以使用以下命令获取主机 IP 地址：
-1 2  $ cat /etc/resolv.conf | grep -oP &amp;#39;(?&amp;lt;=nameserver\ ).*&amp;#39; 172.20.144.1   以在 WSL 2 (Ubuntu 18.04) 中使用 Windows 网络代理（此处为 socks5 代理）为例，向 ~/.</description>
     </item>
     
     <item>
@@ -107,7 +95,7 @@ WSL 2 使用轻量级虚拟机 (VM) 技术运行 Linux 内核，因此 WSL 2 是
       <guid>https://ruihusky.github.io/ruihusky/posts/2020-11-27_promise-aplus/</guid>
       <description>前言 Promise 对象用于表示一个异步操作的最终完成（或失败），及其结果值。它最早由社区提出和实现，其中有多种 Promise 规范。ES6 按照 Promise/A+ 规范将其写进了语言标准。 关于该规范的详情可参考：Promise/A+规范 中文翻译。
 基础实现 我们先尝试实现最简单的 Promise 功能：通过 Promise 包装异步请求，并使用then方法注册回调函数，通过resolve方法通知 Promise 异步请求已解决，并执行回调函数。 模拟一个基础的异步 http 请求，并使用 Promise 封装：
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20  // 模拟http请求 const mockAjax = (url, s, callback) =&amp;gt; { console.log(&amp;#34;[mockAjax] start&amp;#34;); setTimeout(() =&amp;gt; { console.log(&amp;#34;[mockAjax] callback&amp;#34;); callback(&amp;#34;异步结果：&amp;#34; + url + &amp;#34;异步请求耗时&amp;#34; + s + &amp;#34;秒&amp;#34;); }, 1000 * s); }; // Promise基础功能 new Promise((resolve) =&amp;gt; { mockAjax(&amp;#34;getUserId&amp;#34;, 1, function (result) { resolve(result); }); }) .</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 // 模拟http请求 const mockAjax = (url, s, callback) =&amp;gt; { console.log(&amp;#34;[mockAjax] start&amp;#34;); setTimeout(() =&amp;gt; { console.log(&amp;#34;[mockAjax] callback&amp;#34;); callback(&amp;#34;异步结果：&amp;#34; + url + &amp;#34;异步请求耗时&amp;#34; + s + &amp;#34;秒&amp;#34;); }, 1000 * s); }; // Promise基础功能 new Promise((resolve) =&amp;gt; { mockAjax(&amp;#34;getUserId&amp;#34;, 1, function (result) { resolve(result); }); }) .</description>
     </item>
     
     <item>
@@ -117,7 +105,7 @@ WSL 2 使用轻量级虚拟机 (VM) 技术运行 Linux 内核，因此 WSL 2 是
       
       <guid>https://ruihusky.github.io/ruihusky/posts/2020-11-12_js-prototype/</guid>
       <description>构造函数模式与原型 在 ES5 中，我们可以自定义构造函数用于创建特定的类型对象，例如：
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  // 定义构造函数 function Person(name, age, job) { this.name = name; this.age = age; this.job = job; this.sayName = function () { console.log(this.name); }; } // 以 new 操作符调用构造函数 let person1 = new Person(&amp;#34;Nicholas&amp;#34;, 29, &amp;#34;Software Engineer&amp;#34;); let person2 = new Person(&amp;#34;Greg&amp;#34;, 27, &amp;#34;Doctor&amp;#34;); person1.sayName(); // Nicholas person2.sayName(); // Greg   其实这里的“构造函数”说法只是一种概念上的区分，它与普通的 JavaScript 函数没什么区别。通常会约定构造函数以大写字母开头，非构造函数以小写字母开头。</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 // 定义构造函数 function Person(name, age, job) { this.name = name; this.age = age; this.job = job; this.sayName = function () { console.log(this.name); }; } // 以 new 操作符调用构造函数 let person1 = new Person(&amp;#34;Nicholas&amp;#34;, 29, &amp;#34;Software Engineer&amp;#34;); let person2 = new Person(&amp;#34;Greg&amp;#34;, 27, &amp;#34;Doctor&amp;#34;); person1.sayName(); // Nicholas person2.sayName(); // Greg 其实这里的“构造函数”说法只是一种概念上的区分，它与普通的 JavaScript 函数没什么区别。通常会约定构造函数以大写字母开头，非构造函数以小写字母开头。</description>
     </item>
     
   </channel>

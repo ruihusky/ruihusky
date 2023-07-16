@@ -3,7 +3,6 @@ title: "CSS flex-basis: auto 与弹性布局"
 date: 2021-01-26T20:00:00+08:00
 draft: false
 tags: ["CSS", "Flex布局"]
-categories: ["经验技巧"]
 ---
 
 ## flex 布局中的问题

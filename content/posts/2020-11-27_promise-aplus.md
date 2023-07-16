@@ -3,7 +3,6 @@ title: "Promise实现原理（Promise/A+规范）"
 date: 2020-11-27T20:00:00+08:00
 draft: false
 tags: ["JavaScript"]
-categories: ["理论基础"]
 ---
 
 ## 前言

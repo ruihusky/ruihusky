@@ -2,8 +2,7 @@
 title: "React Hooks 原理简析"
 date: 2021-06-20T20:00:00+08:00
 draft: false
-tags: ["框架原理"]
-categories: ["理论基础"]
+tags: ["框架原理", "React"]
 ---
 
 ## 说明

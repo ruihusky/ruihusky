@@ -3,7 +3,6 @@ title: "JavaScript原型与继承"
 date: 2020-11-12T20:00:00+08:00
 draft: false
 tags: ["JavaScript"]
-categories: ["理论基础"]
 ---
 
 ## 构造函数模式与原型
@@ -95,7 +94,7 @@ console.log(instance.getSuperValue()); // true
 
 结合上文的原型搜索机制来理解：访问一个实例属性时，首先在实例中搜索该属性。如果没有找到则会继续搜索该实例的原型。通过原型链实现继承后，搜索过程就会沿着原型链继续向上。拿上面的例子来说，调用 `instance.getSuperValue()` 的过程如下：
 
-**搜索 SubType 实例 --> 搜索`SubType.prototype` --> 搜索`SuperType.prototype` --> 找到 getSuperValue 方法**
+**搜索 SubType 实例 --> 搜索 SubType.prototype --> 搜索 SuperType.prototype --> 找到 getSuperValue 方法**
 
 另外，任何函数的默认原型都是一个 `Object` 的实例，这意味着这个实例有一个内部指针指向 `Object.prototype`。因此可以这么概括：`SubType` 继承自 `SuperType` ，`SuperType` 继承自 `Object`。完整的原型链如下：
 

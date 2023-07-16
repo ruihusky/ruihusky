@@ -3,7 +3,6 @@ title: "Unicode 编码与 UTF-32、UTF-16、UTF-8"
 date: 2020-12-16T20:00:00+08:00
 draft: false
 tags: ["编码", "Unicode", "UTF"]
-categories: ["理论基础"]
 ---
 
 ## 字符编码与 Unicode 编码

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>框架原理 on ruihusky&#39;s Blog</title>
-    <link>https://ruihusky.github.io/ruihusky/tags/%E6%A1%86%E6%9E%B6%E5%8E%9F%E7%90%86/</link>
-    <description>Recent content in 框架原理 on ruihusky&#39;s Blog</description>
+    <title>React on ruihusky&#39;s Blog</title>
+    <link>https://ruihusky.github.io/ruihusky/tags/react/</link>
+    <description>Recent content in React on ruihusky&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <copyright>Content on this site is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).&lt;br /&gt;</copyright>
-    <lastBuildDate>Sun, 20 Jun 2021 20:00:00 +0800</lastBuildDate><atom:link href="https://ruihusky.github.io/ruihusky/tags/%E6%A1%86%E6%9E%B6%E5%8E%9F%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 20 Jun 2021 20:00:00 +0800</lastBuildDate><atom:link href="https://ruihusky.github.io/ruihusky/tags/react/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>React Hooks 原理简析</title>
       <link>https://ruihusky.github.io/ruihusky/posts/2021-06-20_react-hooks/</link>
