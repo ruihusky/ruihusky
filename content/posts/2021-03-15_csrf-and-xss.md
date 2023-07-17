@@ -13,11 +13,11 @@ CSRF 的全称是 Cross Site Request Forgery 的缩写，即**跨站请求伪造
 
 用户登录了某一家银行网站，其登陆状态由浏览器 cookie 与服务器 session 维持。该网站有一用于执行转账操作的 get 请求：
 
-`https://bank.example.com/withdraw?account=AccoutName&amount=1000&for=PayeeName`。
+`https://bank.example.com/withdraw?account=AccoutName&amount=1000&for=PayeeName`
 
 攻击者在一个恶意网站上放置如下代码：
 
-`<img src="https://bank.example.com/withdraw?account=Alice&amount=1000&for=Badman" />`。
+`<img src="https://bank.example.com/withdraw?account=Alice&amount=1000&for=Badman" />`
 
 如果用户登录了银行网站之后还未退出登陆，并访问了恶意网站，则上述`img`标签会发出转账请求，并携带银行网站的登录态 cookie。服务器收到了请求，并查看 cookie，发现用户依然是登陆状态，则认为该次请求合法。于是用户的银行账户就损失了 1000 资金。
 
