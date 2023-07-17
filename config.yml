@@ -24,8 +24,8 @@ params:
   keywords: [ruihusky, 技术博客, 个人博客]
   author: ruihusky
   DateFormat: "2006年1月2日"
-  defaultTheme: auto
-  disableThemeToggle: false
+  defaultTheme: light
+  disableThemeToggle: true
 
   ShowReadingTime: false
   ShowShareButtons: false
@@ -43,17 +43,6 @@ params:
   assets:
     disableHLJS: false
 
-  # for search
-  # https://fusejs.io/api/options.html
-  fuseOpts:
-    isCaseSensitive: false
-    shouldSort: true
-    location: 0
-    distance: 1000
-    threshold: 0.4
-    minMatchCharLength: 0
-    keys: ["title", "permalink", "summary", "content"]
-
 markup:
   # https://gohugo.io/getting-started/configuration-markup/#highlight
   highlight:
@@ -68,7 +57,7 @@ markup:
     lineNumbersInTable: true
     noClasses: true
     noHl: false
-    style: monokai
+    style: native
     tabWidth: 2
 
   goldmark:

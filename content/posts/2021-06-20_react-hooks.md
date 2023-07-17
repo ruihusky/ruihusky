@@ -25,7 +25,7 @@ React 根据状态渲染视图，且一个状态对应一个渲染结果。也�
 
 在 React 中，推荐使用不可变数据 (immutable data) 描述状态。需要更新状态时，应使用一份新的数据，而不是对原来的数据进行修改。
 
-不过就算使用不可变数据，类组件中还是会有`this`的问题。先看一个类组件示例：
+不过就算使用不可变数据，类组件中还是会有 this 的问题。先看一个类组件示例：
 
 ```jsx
 /**
@@ -223,9 +223,7 @@ function mountWorkInProgressHook(): Hook {
 上例的 mount 阶段调用了两次 useState ，并产生如下的 Hook 链表：
 
 ```javascript
-hook: { memoizedState: 'initial value a' }
-↓next
-hook: { memoizedState: 'initial value b' }
+hook: { memoizedState: 'initial value a' } --> hook: { memoizedState: 'initial value b' }
 ```
 
 点击按钮之后，将会调用如下代码：
@@ -242,9 +240,7 @@ onClick={() => {
 React 将执行之前通过调用 mountState 返回的两个 dispatch ，更新两个 hook 节点的 memoizedState ，更新后的 hook 链表如下：
 
 ```javascript
-hook: { memoizedState: 'changed value a' }
-↓next
-hook: { memoizedState: 'changed value b' }
+hook: { memoizedState: 'changed value a' }  --> hook: { memoizedState: 'changed value b' }
 ```
 
 随后进入异步的 update 阶段，重新执行函数组件。
@@ -282,9 +278,8 @@ updateReducer 中逻辑较多，这里有所省略。简单来说，它会按顺
 但对于 React 来说，这是该函数组件第一次调用 useState ，因此 React 按照顺序取出第一个 hook ，并返回对应的 memoizedState 和 dispatch ：
 
 ```javascript
-hook: { memoizedState: 'changed value a' } // 实际被取出的 hook ，因此 valueB = 'changed value a'
-↓next
-hook: { memoizedState: 'changed value b' }
+// 实际被取出的 hook 是第一个hook，因此 valueB = 'changed value a'
+hook: { memoizedState: 'changed value a' } --> hook: { memoizedState: 'changed value b' } 
 ```
 
 以上就是对 useState Hook 的原理简析。
@@ -495,7 +490,6 @@ function schedulePassiveEffects(finishedWork: Fiber) {
     } while (effect !== firstEffect);
   }
 }
-
 ```
 
 schedulePassiveEffects 遍历 effect 链表，找到所有具有 HookHasEffect 和 HookPassive 标志位的 effect ，将 effect 的销毁函数、执行函数推入了各自所属的队列。队列中的任务将会异步执行。
