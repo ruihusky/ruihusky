@@ -1,3 +1,0 @@
-User-agent: *
-Disallow:
-Sitemap: https://ruihusky.github.io/ruihusky/sitemap.xml
